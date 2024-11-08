@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function TextInput() {
+export default function TextInput({ className }) {
   const [input, setInput] = useState("");
 
   // Define the foo function
@@ -29,7 +29,7 @@ export default function TextInput() {
       onChange={handleChange}
       onKeyDown={handleKeyPress}
       placeholder="Type something and press Enter"
-      style={{ padding: "8px", fontSize: "16px", width: "100%" }}
+      className={className}
     />
   );
 }
