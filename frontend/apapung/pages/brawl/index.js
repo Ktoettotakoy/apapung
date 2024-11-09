@@ -1,3 +1,5 @@
+import Head from "next/head.js";
+
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/router";
@@ -37,6 +39,15 @@ export default function Brawl() {
   };
   return (
     <div className={styles.mainScreenContainer}>
+      <Head>
+        <title>Apapung</title>
+        <link rel="icon" type="image/jpg" href="/favicon.ico" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
+
       <div className={styles.pokemonContainer}>
         <CardHolder
           startButtonPlaceholder={"Click to choose a pokemon"}
