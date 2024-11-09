@@ -72,7 +72,7 @@
   background-color: #ff6347; /* Tomato red color */
   border: 6px solid #333;    /* Matching pixelated border */
   color: #fff;
-  width: 380px;
+  width: 28vh;
   text-align: left;
   border-radius: 12px; /* Rounded corners for the start button */
   cursor: pointer;
