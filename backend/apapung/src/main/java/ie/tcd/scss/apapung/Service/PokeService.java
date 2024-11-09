@@ -12,10 +12,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.time.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -58,22 +64,34 @@ public class PokeService {
         }
     }
 
-    // private Map<String, Object> getPokeApiStats(String pokemon) {
-    // String url = "https://pokeapi.p.sulu.sh/api/v2/stat/" + pokemon + "/";
-    // RestTemplate restTemplate = new RestTemplate();
+    public int getPokeApiStats(String pokemon) {
+        // set up api url
+        String url = "https://pokeapi.p.sulu.sh/api/v2/pokemon/" + pokemon + "/";
 
-    // // Fetch data from PokeAPI
-    // Map<String, Object> response = restTemplate.getForObject(url, Map.class);
+        // Set up api access headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", this.pokeAPIToken);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        int totalBaseStat = 0;
 
-    // return response;
-    // }
+        try {
+            // Get response and parse
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+            ObjectMapper objectMapper = new ObjectMapper();
 
-    // private void processPokeData(Map<String, Object> data) {
-    // // Example of processing the data: Add calculated values to the map, etc.
-    // if (data != null) {
-    // // Perform any calculations or modifications to 'data' here
-    // // e.g., data.put("processedValue", calculatedValue);
-    // }
-    // }
+            // Use TypeReference to avoid unchecked conversion warning
+            Map<String, Object> responseMap = objectMapper.readValue(response.getBody(), new TypeReference<Map<String, Object>>() {});
 
-}
+            // Calculate the total base stats
+            List<Map<String, Object>> stats = (List<Map<String, Object>>) responseMap.get("stats");
+        
+            for (Map<String, Object> stat : stats) {
+                totalBaseStat += (int) stat.get("base_stat");
+            }
+    }
+        catch (JsonProcessingException e){
+        e.printStackTrace();
+        }
+            return totalBaseStat;
+        }
+    }
