@@ -10,9 +10,6 @@ public class ApapungApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ApapungApplication.class, args);
-
-		PokeService service = new PokeService();
-		new PokeController(service);
 	}
 
 }
