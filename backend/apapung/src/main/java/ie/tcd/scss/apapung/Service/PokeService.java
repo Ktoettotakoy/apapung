@@ -2,6 +2,7 @@ package ie.tcd.scss.apapung.Service;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import java.time.Duration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
@@ -19,13 +22,18 @@ import java.util.Map;
 public class PokeService {
     private final String pokeAPIToken;
     private final RestTemplate restTemplate;
+    private static final Logger logger = LoggerFactory.getLogger(PokeService.class);
 
+    @Autowired
     public PokeService(RestTemplateBuilder restTemplateBuilder) {
         Dotenv dotenv = Dotenv.configure().load();
         this.pokeAPIToken = dotenv.get("POKEAPI_TOKEN");
         if (this.pokeAPIToken == null) {
             throw new IllegalStateException("POKEAPI_TOKEN is missing from the .env file.");
         }
+
+        // debug prints
+        logger.debug("Loaded PokeAPI Token: {}", pokeAPIToken);
 
         // Configure RestTemplate with timeouts
         this.restTemplate = restTemplateBuilder
@@ -40,7 +48,7 @@ public class PokeService {
 
         // Set up access headers
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", this.pokeAPIToken);
+        headers.set("Authorization", "Bearer " + this.pokeAPIToken);
         HttpEntity<String> entity = new HttpEntity<>(headers);
         try {
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
