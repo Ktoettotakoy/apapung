@@ -11,12 +11,14 @@ export default function Home() {
       <Head>
         <title>Apapung</title>
         <link rel="icon" type="image/jpg" href="/favicon.ico" />
-        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+          rel="stylesheet"
+        />
       </Head>
 
       {/* Main Content */}
       <div className={styles.content}>
-        {/* Centered Pokémon Title GIF */}
         <div
           style={{
             display: "flex",
@@ -45,10 +47,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Pikachu GIF in Lower Left Corner */}
         <img src="/Picacku.gif" alt="Pikachu" className={styles.lowerLeftImage} />
 
-        {/* Start Button in Lower Center */}
         <div style={{ position: "relative", width: "100%", height: "100vh" }}>
           <button className={styles.startButton} onClick={() => router.push("/brawl")}>
             Start

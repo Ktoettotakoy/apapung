@@ -30,13 +30,14 @@ export default function Brawl() {
         // After animation completes (simulate with a timeout), navigate to /or
         router.push({
           pathname: "/or",
-          query: { info: "TestString" }, // Pass data to the /or page
+          query: { dogData }, // Pass data to the /or page
         });
       }, 2000); // Adjust this time based on the animation duration
     } else {
       alert("Please select both a Pokemon and a Dog!");
     }
   };
+
   return (
     <div className={styles.mainScreenContainer}>
       <Head>
