@@ -7,15 +7,8 @@ export default function Home() {
 
   return (
     <div className={styles.backgroundContainer}>
-      {/* Meta and Page Head */}
-      <Head>
-        <title>Apapung</title>
-        <link rel="icon" type="image/jpg" href="/favicon.ico" />
-      </Head>
-
       {/* Main Content */}
       <div className={styles.content}>
-        {/* Centered Pokémon Title GIF */}
         <div
           style={{
             display: "flex",
@@ -44,10 +37,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Pikachu GIF in Lower Left Corner */}
         <img src="/Picacku.gif" alt="Pikachu" className={styles.lowerLeftImage} />
 
-        {/* Start Button in Lower Center */}
         <div style={{ position: "relative", width: "100%", height: "100vh" }}>
           <button className={styles.startButton} onClick={() => router.push("/brawl")}>
             Start

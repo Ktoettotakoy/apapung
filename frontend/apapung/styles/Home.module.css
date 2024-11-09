@@ -1,31 +1,5 @@
 /* Full-screen container for the background image */
 .backgroundContainer {
-    position: relative; /* Allow child elements to use z-index */
-    z-index: 0; /* Background sits at the base layer */
-    width: 100%;
-    height: 100vh;
-    background-image: url('/homePageBackground.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-
-/* Content overlay */
-.content {
-    position: relative; /* Position content above the background */
-    z-index: 1; /* Higher z-index to sit above the background */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    width: 100%;
-    height: 100%;
-}
-
-/* Full-screen container for the background image */
-.backgroundContainer {
     position: relative;
     width: 100%;
     height: 100vh;
@@ -52,7 +26,7 @@
 /* Pikachu GIF positioned in the lower left corner */
 .lowerLeftImage {
     position: absolute;
-    bottom: 15vh; /* Distance from the bottom */
+    bottom: 17vh; /* Distance from the bottom */
     left: 5vw;   /* Distance from the left */
     width: 50vw;  /* Responsive width based on viewport width */
     height: auto;
@@ -61,8 +35,8 @@
 /* Start Button with responsive size and retro style */
 .startButton {
     position: absolute;
-    bottom: 22vh;             /* 5% from the bottom of the viewport */
-    left: 50%;               /* Center horizontally */
+    bottom: 22vh;             
+    left: 50%;               
     transform: translateX(-50%);
     padding: 2vh 4vw;        /* Responsive padding: 2% of viewport height, 4% of viewport width */
     font-size: 3vw;          /* Responsive font size based on viewport width */
@@ -92,20 +66,22 @@
 
 .introText {
     position: absolute;
-    bottom: 2vh;  
+    bottom: 4vh;  
     left: 50%;
     transform: translateX(-50%);
     width: 80%;
     padding: 2vh 2vw;
-    font-size: 2.5vw;
+    font-size: 1.8vw;
     color: #fff;
     text-align: center;
-    background-color: rgba(255, 102, 0, 0.8); /* 使用浅棕色背景，提升复古风格 */
+    background-color: rgba(255, 102, 0, 0.8); 
     border-radius: 10px;
     border: 2px solid #333;
     font-family: 'Press Start 2P', cursive;
     text-shadow: 2px 2px 0px #333;
 }
+
+
 
 
 

@@ -32,7 +32,7 @@
   padding: 10px;              /* Inner padding */
   font-size: 16px;            /* Readable font size */
   border: none;
-  box-shadow:  0 0 5px rgba(0, 123, 255, 0.2);
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.2); /* Red shadow instead of blue */
   border-radius: 6px;
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
@@ -42,15 +42,15 @@
 }
 
 .modalTextInput:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Focus glow */
+  border-color: #ff0000;  /* Red border color on focus */
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.5); /* Red focus glow */
 }
 
-/* Close button styling */
+/* Close button styling (pixelated style) */
 .modalCloseButton {
   font-size: 16px;
   padding: 10px 15px;          /* Padding for size consistency */
-  background-color: #007bff;   /* Primary button color */
+  background-color: #ff0000;   /* Red button background */
   color: #fff;                 /* White text color */
   border: none;
   border-radius: 6px;
@@ -61,14 +61,31 @@
 }
 
 .modalCloseButton:hover {
-  background-color: #0056b3;    /* Darken color on hover */
+  background-color: #cc0000;    /* Darker red when hovered */
 }
 
-
-.startButton{
-  font-size: large;
-  background-color: #fff;
+/* Start Button with Pixel Style */
+.startButton {
+  font-family: 'Press Start 2P', sans-serif; /* Pixel font for button */
+  font-size: 20px;
   padding: 20px;
-  border-radius: 8px;
-  width: 300px;
+  background-color: #ff6347; /* Tomato red color */
+  border: 6px solid #333;    /* Matching pixelated border */
+  color: #fff;
+  width: 28vh;
+  text-align: left;
+  border-radius: 12px; /* Rounded corners for the start button */
+  cursor: pointer;
+  box-shadow: 8px 8px 0px #333; /* Deep shadow for a 3D effect */
+  transition: all 0.2s ease-in-out;
+}
+
+.startButton:hover {
+  background-color: #ff4500;  /* Darker red when hovered */
+  box-shadow: 6px 6px 0px #333;
+}
+
+.startButton:active {
+  transform: translate(2px, 2px); /* Makes it appear pressed */
+  box-shadow: 4px 4px 0px #333;
 }
