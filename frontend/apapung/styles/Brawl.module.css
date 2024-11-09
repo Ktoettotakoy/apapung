@@ -35,7 +35,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background-color: lightblue; */
 }
 
 /* VS Logo styles */
@@ -46,37 +45,87 @@
   animation: jump 1s ease-in-out infinite;
   z-index: 2;
   position: relative;
+  cursor: pointer;
 }
 
-/* Card styling */
-.pokemonCard {
+.pokemonCard, .dogCard {
   position: absolute;
-  right: 2%;
-  top: 4%;
-  height: 96%;
-  width: 45%;
   z-index: 4; /* Ensure the card is above other content */
   background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 32px; /* Smooth, rounded corners */
+  overflow: hidden; /* Hide anything that exceeds the rounded borders */
+  width: 45%;
+  height: 96%;
+}
+
+.pokemonCard {
+  right: 2%;
+  top: 4%;
+  animation: movePokeCard 2.5s ease-out infinite;
 }
 
 .dogCard {
-  position: absolute;
   left: 0.5%;
   top: 1%;
-  height: 96%;
-  width: 45%;
-  z-index: 4; /* Ensure the card is above other content */
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  animation: moveDogCard 2s ease-out infinite;
+}
+
+@keyframes moveDogCard {
+  0% {
+    transform: translate(0, 0);
+  }
+  50%{
+    transform: translate(8px, -8px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes movePokeCard {
+  0% {
+    transform: translate(0, 0);
+  }
+  50%{
+    transform: translate(-8px, 8px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+.resetButton {
+  position: fixed;
+  bottom: 20px; 
+  right: 20px; 
+  font-family: 'Press Start 2P', sans-serif; 
+  font-size: 20px;
+  padding: 20px;
+  background-color: #ff6347; 
+  border: 6px solid #333;    
+  color: #fff;
+  width: 28vh;
+  text-align: left;
+  border-radius: 12px; 
+  cursor: pointer;
+  box-shadow: 8px 8px 0px #333; 
+  transition: all 0.2s ease-in-out;
+}
+
+.resetButton:hover {
+  background-color: #ff4500;  
+  box-shadow: 6px 6px 0px #333;
+}
+
+.resetButton:active {
+  transform: translate(2px, 2px); 
+  box-shadow: 4px 4px 0px #333;
 }
 
 /* Brawl animation for VS Logo */
 .vsLogo.spinAnimation {
   z-index: 1000;
-  animation: spinAndGrow 2s linear forwards; /* Spin and grow for 2 seconds */
+  animation: spinAndGrow 2s linear infinite;
 }
 
 /* Keyframe for full 360-degree spin and scaling up */

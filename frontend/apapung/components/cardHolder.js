@@ -15,7 +15,11 @@ export default function CardHolder({
   const [cardData, setCardData] = useState(null);
 
   const handleInputSubmit = (input) => {
-    const data = { name: input, image: "/Picacku.gif", parameter1: "Example Parameter" };
+    const data = {
+      name: input,
+      image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/23.png",
+      parameter1: "Example Parameter",
+    };
     setCardData(data);
     onCardSubmit(data);
     setShowInput(false); // Close the modal

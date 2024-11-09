@@ -1,5 +1,4 @@
 import Head from "next/head.js";
-
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/router";
@@ -40,11 +39,14 @@ export default function Brawl() {
 
   return (
     <div className={styles.mainScreenContainer}>
+      <Head>
+        <title>Apapung</title>
+      </Head>
       <div className={styles.pokemonContainer}>
         <CardHolder
           startButtonPlaceholder={"Click to choose a pokemon"}
           cardStyles={styles.pokemonCard}
-          popUpModalPlaceholder={"Pokemon's name here"}
+          popUpModalPlaceholder={"Enter pokemon name"}
           onCardSubmit={handlePokemonSubmit}
         ></CardHolder>
       </div>
@@ -63,9 +65,12 @@ export default function Brawl() {
         <CardHolder
           startButtonPlaceholder={"Click to choose a dog breed"}
           cardStyles={styles.dogCard}
-          popUpModalPlaceholder={"Choose a dog by breed"}
+          popUpModalPlaceholder={"Enter dog breed"}
           onCardSubmit={handleDogSubmit}
         ></CardHolder>
+        <button className={styles.resetButton} onClick={() => router.reload()}>
+          Reset
+        </button>
       </div>
     </div>
   );

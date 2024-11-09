@@ -7,6 +7,9 @@ export default function Home() {
 
   return (
     <div className={styles.backgroundContainer}>
+      <Head>
+        <title>Apapung</title>
+      </Head>
       {/* Main Content */}
       <div className={styles.content}>
         <div
