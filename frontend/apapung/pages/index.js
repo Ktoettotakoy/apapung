@@ -11,6 +11,7 @@ export default function Home() {
       <Head>
         <title>Apapung</title>
         <link rel="icon" type="image/jpg" href="/favicon.ico" />
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
       </Head>
 
       {/* Main Content */}
