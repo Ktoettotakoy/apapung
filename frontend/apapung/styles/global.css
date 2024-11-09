@@ -30,3 +30,25 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: lightgray; /* Fallback color for debugging */
+}
+
+body {
+    background-image: url('/homePageBackground.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    color: white; /* Optional: Set text color for visibility */
+}
+
+
+
