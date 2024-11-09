@@ -1,30 +1,47 @@
+import Image from "next/image";
+import Head from "next/head";
 import { useState } from "react";
-import { FaArrowDown } from "react-icons/fa";
+import { useRouter } from "next/router";
 import styles from "../../styles/Or.module.css";
 
 export default function OrPage() {
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0); // Track the current message
   const [showSecondDiv, setShowSecondDiv] = useState(false);
+  const router = useRouter();
 
-  // Handle arrow click to slide up the first div
-  const handleArrowClick = () => {
-    setShowSecondDiv(true); // Triggers the transition effect
+  // Define the messages in an array
+  const messages = [
+    "Pokemons are obviously overpowered!",
+    "You'll need a whole team of dogs to stand a chance!",
+    "To be precise..",
+    "You need XXXX dogs!!!",
+    "They worth around 1000$!!!",
+    "For that amount of money, you could buy...",
+  ];
+
+  // Handle the next button click
+  const handleNextClick = () => {
+    if (currentMessageIndex < messages.length - 1) {
+      setCurrentMessageIndex(currentMessageIndex + 1); // Show the next message
+    } else {
+      setShowSecondDiv(true);
+    }
   };
 
   return (
     <div className={styles.screen}>
+      <Head>
+        <title>Apapung</title>
+      </Head>
       {/* First Page with after brawl info */}
       <div className={`${styles.fullscreenDiv} ${showSecondDiv ? styles.slideUp : ""}`}>
         <div className={styles.content}>
-          <h1>Pokemon is too strong!</h1>
-          <p>
-            You'll need a whole team of dogs to stand a chance! To be precise, you need XXXX dogs
-            They cost 1000$. For that amount of money you could actually buy...
-          </p>
-          <p>Click on the arrow</p>
+          {/* Pokémon character with dialog bubble */}
+          <img src="/poketrainer.gif" alt="Pokémon" className={styles.pokemonCharacter} />
+          <div className={styles.speechBubble} onClick={handleNextClick}>
+            <p>{messages[currentMessageIndex]}</p>
+          </div>
         </div>
-        <button onClick={handleArrowClick} className={styles.arrowButton}>
-          <FaArrowDown />
-        </button>
       </div>
 
       {/* Second Page with Amazon Carousel */}
