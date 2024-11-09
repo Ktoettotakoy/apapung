@@ -1,4 +1,4 @@
-package ie.tcd.scss.apapung;
+package ie.tcd.scss.apapung.controllers;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
