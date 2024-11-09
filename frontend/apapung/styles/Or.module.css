@@ -16,15 +16,64 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: lightcoral; /* Change as desired */
     transition: transform 0.8s ease-in-out;
+
+    background-image: url('/homePageBackground.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }
+
+  /* Pokémon character positioning */
+.pokemonCharacter {
+    position: absolute;
+    top: 35%; /* Adjust this value to position the Pokémon */
+    right: 200px; /* Adjust this value to position the Pokémon */
+    width: 600px; /* Size of the Pokémon character */
+    z-index: 1; /* Ensure it's above other content */
+}
+
+/* Speech bubble styling */
+.speechBubble {
+    position: absolute;
+    font-family: 'Press Start 2P';
+    top: 30%; /* Position the bubble above the character */
+    right: 600px; /* Adjust position based on Pokémon's location */
+    border-radius: 16px;
+    padding: 16px;
+    height: 200px;
+    width: auto;
+    max-width: 300px;
+    font-size: 1.2rem;
+    color: black;
+    z-index: 1;
+    animation: bubbleAnimation 1.5s ease-in-out;
+
+    background-image: url('/bubble.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    cursor: pointer;
+}
+
+  /* Optional: Animation for the speech bubble */
+    @keyframes bubbleAnimation {
+        0% {
+            opacity: 0.3;
+            transform: translateY(8px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
   
   /* Content styling */
   .content {
-    text-align: center;
+    text-align: left;
     font-size: 3rem;
-    color: white;
   }
   
   /* Arrow button at the bottom */
@@ -45,6 +94,7 @@
   
   /* Second div styling */
   .fullscreenDiv:nth-child(2) {
+    background-image: none;
     background-color: lightblue; /* Different color for second div */
     z-index: -1; /* Ensures the second div is behind initially */
   }
