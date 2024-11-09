@@ -5,6 +5,11 @@
   height: 100vh;
   width: 100vw;
   z-index: 0;
+  background-image: url('/homePageBackground.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 /* Ensure containers are stacked with a lower z-index */
