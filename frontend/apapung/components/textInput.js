@@ -1,6 +1,10 @@
 import { useState } from "react";
 
-export default function TextInput({ className }) {
+export default function TextInput({
+  className,
+  onEnter = () => {},
+  placeholder = "Type something...",
+}) {
   const [input, setInput] = useState("");
 
   // Define the foo function
@@ -19,6 +23,8 @@ export default function TextInput({ className }) {
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       foo();
+      onEnter(input); // Pass the input to the parent component's callback
+      setInput(""); // Clear the input after handling
     }
   };
 
@@ -28,7 +34,7 @@ export default function TextInput({ className }) {
       value={input}
       onChange={handleChange}
       onKeyDown={handleKeyPress}
-      placeholder="Type something and press Enter"
+      placeholder={placeholder}
       className={className}
     />
   );

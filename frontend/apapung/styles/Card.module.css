@@ -1,0 +1,16 @@
+.cardImage {
+width: 100px;
+height: 100px;
+}
+
+.cardName {
+font-size: 20px;
+font-weight: bold;
+margin: 10px 0 5px;
+}
+
+.cardParameter {
+font-size: 16px;
+color: #555;
+}
+  

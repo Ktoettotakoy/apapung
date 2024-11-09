@@ -1,0 +1,25 @@
+/* Modal overlay for the TextInput */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; /* Highest level to ensure it’s on the foreground */
+  }
+  
+  .modalContent {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    z-index: 11; /* Foreground for content inside the modal */
+  }
+
+  .modalTextInput{
+    z-index: 12;
+  }
