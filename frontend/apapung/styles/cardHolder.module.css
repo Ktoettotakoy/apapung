@@ -1,25 +1,74 @@
 /* Modal overlay for the TextInput */
 .modalOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10; /* Highest level to ensure it’s on the foreground */
-  }
-  
-  .modalContent {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    width: 300px;
-    z-index: 11; /* Foreground for content inside the modal */
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10; /* Ensure it’s in the foreground */
+}
 
-  .modalTextInput{
-    z-index: 12;
-  }
+/* Modal content box styling */
+.modalContent {
+  background-color: #fff;
+  padding: 24px 20px;           /* Adds padding for a balanced look */
+  border-radius: 10px;          /* Smooth corner radius */
+  width: 320px;                 /* Slightly larger width for comfort */
+  max-width: 90vw;              /* Responsiveness on smaller screens */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  z-index: 11;
+  display: flex;
+  flex-direction: row;
+  align-items: center;          /* Centers content inside modal */
+}
+
+/* TextInput styling within modal */
+.modalTextInput {
+  flex: 1;                    /* Takes up remaining space */
+  padding: 10px;              /* Inner padding */
+  font-size: 16px;            /* Readable font size */
+  border: none;
+  box-shadow:  0 0 5px rgba(0, 123, 255, 0.2);
+  border-radius: 6px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+}
+
+.modalTextInput:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Focus glow */
+}
+
+/* Close button styling */
+.modalCloseButton {
+  font-size: 16px;
+  padding: 10px 15px;          /* Padding for size consistency */
+  background-color: #007bff;   /* Primary button color */
+  color: #fff;                 /* White text color */
+  border: none;
+  border-radius: 6px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth hover transition */
+}
+
+.modalCloseButton:hover {
+  background-color: #0056b3;    /* Darken color on hover */
+}
+
+
+.startButton{
+  font-size: large;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+}

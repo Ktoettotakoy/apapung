@@ -7,8 +7,9 @@ export default function Brawl() {
     <div className={styles.mainScreenContainer}>
       <div className={styles.pokemonContainer}>
         <CardHolder
-          className={styles.pokemonPopup}
-          placeholder={"Choose a pokemon by name"}
+          startButtonPlaceholder={"Click to choose a pokemon"}
+          cardStyles={styles.pokemonCard}
+          popUpModalPlaceholder={"Pokemon's name here"}
         ></CardHolder>
       </div>
       <div className={styles.vsContainer}>
@@ -22,7 +23,11 @@ export default function Brawl() {
         />
       </div>
       <div className={styles.dogContainer}>
-        <CardHolder className={styles.dogPopup} placeholder={"Choose a dog by breed"}></CardHolder>
+        <CardHolder
+          startButtonPlaceholder={"Click to choose a dog breed"}
+          cardStyles={styles.dogCard}
+          popUpModalPlaceholder={"Choose a dog by breed"}
+        ></CardHolder>
       </div>
     </div>
   );

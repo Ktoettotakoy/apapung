@@ -1,10 +1,10 @@
 // CardHolder.js
 import { useState } from "react";
-import TextInput from "./textInput.js";
+import TextInput from "./textInput";
 import styles from "../styles/cardHolder.module.css";
-import Card from "./Card.js";
+import Card from "./Card";
 
-export default function CardHolder({ className, placeholder }) {
+export default function CardHolder({ startButtonPlaceholder, cardStyles, popUpModalPlaceholder }) {
   const [showInput, setShowInput] = useState(false);
   const [clickMeOnce, setClickMeOnce] = useState(true);
   const [cardData, setCardData] = useState(null);
@@ -12,14 +12,14 @@ export default function CardHolder({ className, placeholder }) {
   const handleInputSubmit = (input) => {
     setCardData({
       name: input,
-      image: "/vercel.svg",
+      image: "/Picacku.gif",
       parameter1: "Example Parameter",
     });
     setShowInput(false); // Close the modal
   };
 
   const handleButtonClickStart = () => {
-    console.log("Button clicked for", placeholder); // Debugging click
+    console.log("Button clicked for"); // Debugging click
     setClickMeOnce(false);
     setShowInput(true); // Show the modal
   };
@@ -30,7 +30,11 @@ export default function CardHolder({ className, placeholder }) {
   };
   return (
     <div style={{ textAlign: "center" }}>
-      {clickMeOnce && <button onClick={handleButtonClickStart}>Click Me</button>}
+      {clickMeOnce && (
+        <button className={styles.startButton} onClick={handleButtonClickStart}>
+          {startButtonPlaceholder}
+        </button>
+      )}
 
       {showInput && (
         <div className={styles.modalOverlay}>
@@ -38,9 +42,11 @@ export default function CardHolder({ className, placeholder }) {
             <TextInput
               className={styles.modalTextInput}
               onEnter={handleInputSubmit}
-              placeholder={placeholder}
+              placeholder={popUpModalPlaceholder}
             />
-            <button onClick={handleButtonClickClose}>Close</button>
+            <button className={styles.modalCloseButton} onClick={handleButtonClickClose}>
+              Cancel
+            </button>
           </div>
         </div>
       )}
@@ -50,7 +56,7 @@ export default function CardHolder({ className, placeholder }) {
           name={cardData.name}
           image={cardData.image}
           parameter1={cardData.parameter1}
-          className={className}
+          className={cardStyles}
         />
       )}
     </div>

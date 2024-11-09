@@ -1,16 +1,41 @@
+/* Card container */
+.card {
+    display: flex;
+    flex-direction: row;
+    height: 100%; 
+    border: pink;
+    border-radius: 8px;
+}
+
+/* Image styling */
 .cardImage {
-width: 100px;
-height: 100px;
+    width: 45%;               /* Take 40% of the card's width */
+    height: 100%;             /* Fill the card's height */
+    object-fit: cover;        /* Ensures the image scales without distortion */
 }
 
+/* Info container styling */
+.infoContainer {
+    background-color: lightseagreen;
+    display: flex;
+    flex: 1;                  /* Takes up the remaining 60% of the width */
+    flex-direction: column;
+    padding: 10px;
+    box-sizing: border-box;   /* Ensures padding doesn't affect width */
+}
+
+/* Card name styling */
 .cardName {
-font-size: 20px;
-font-weight: bold;
-margin: 10px 0 5px;
+    font-size: 20px;
+    text-align: left;
+    margin-top: 0px;
+    margin-bottom: 16px;
 }
 
+/* Card parameter styling */
 .cardParameter {
-font-size: 16px;
-color: #555;
+    font-size: 16px;
+    text-align: left;
+    margin-top: 0px;
+    margin-bottom: 8px;
 }
-  
