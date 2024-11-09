@@ -4,17 +4,20 @@ import TextInput from "./textInput";
 import styles from "../styles/cardHolder.module.css";
 import Card from "./Card";
 
-export default function CardHolder({ startButtonPlaceholder, cardStyles, popUpModalPlaceholder }) {
+export default function CardHolder({
+  startButtonPlaceholder,
+  cardStyles,
+  popUpModalPlaceholder,
+  onCardSubmit,
+}) {
   const [showInput, setShowInput] = useState(false);
   const [clickMeOnce, setClickMeOnce] = useState(true);
   const [cardData, setCardData] = useState(null);
 
   const handleInputSubmit = (input) => {
-    setCardData({
-      name: input,
-      image: "/Picacku.gif",
-      parameter1: "Example Parameter",
-    });
+    const data = { name: input, image: "/Picacku.gif", parameter1: "Example Parameter" };
+    setCardData(data);
+    onCardSubmit(data);
     setShowInput(false); // Close the modal
   };
 

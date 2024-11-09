@@ -22,11 +22,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: lightblue;
+  /* background-color: lightblue; */
 }
 
 .vsContainer {
-  background-color: lightpink;
+  /* background-color: lightpink; */
 }
 
 .dogContainer {
@@ -34,7 +34,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: lightblue;
+  /* background-color: lightblue; */
 }
 
 /* VS Logo styles */
@@ -51,7 +51,7 @@
 .pokemonCard {
   position: absolute;
   right: 2%;
-  top: 1%;
+  top: 4%;
   height: 96%;
   width: 45%;
   z-index: 4; /* Ensure the card is above other content */
@@ -72,14 +72,34 @@
   border-radius: 8px;
 }
 /* Animation for VS Logo */
-@keyframes jump {
+
+/* Brawl animation for VS Logo */
+.vsLogo.spinAnimation {
+  z-index: 1000;
+  animation: spinAndGrow 2s linear forwards; /* Spin and grow for 2 seconds */
+}
+
+/* Keyframe for full 360-degree spin and scaling up */
+@keyframes spinAndGrow {
   0% {
-    transform: translateY(0) rotate(-45deg); /* Starting position */
+    transform: rotate(0deg) scale(1); /* Start at normal size */
   }
   50% {
-    transform: translateY(-20px) rotate(-45deg); /* Mid jump */
+    transform: rotate(180deg) scale(1.5); /* Halfway through the spin, grow to 1.5x size */
   }
   100% {
-    transform: translateY(0) rotate(-45deg); /* Landing */
+    transform: rotate(360deg) scale(2); /* Full spin and grow to 2x size */
+  }
+}
+
+@keyframes jump {
+  0% {
+    transform: translateY(0) rotate(-55deg); /* Starting position */
+  }
+  50% {
+    transform: translateY(-20px) rotate(-55deg); /* Mid jump */
+  }
+  100% {
+    transform: translateY(0) rotate(-55deg); /* Landing */
   }
 }
