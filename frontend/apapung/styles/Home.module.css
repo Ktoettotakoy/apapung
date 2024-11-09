@@ -1,31 +1,5 @@
 /* Full-screen container for the background image */
 .backgroundContainer {
-    position: relative; /* Allow child elements to use z-index */
-    z-index: 0; /* Background sits at the base layer */
-    width: 100%;
-    height: 100vh;
-    background-image: url('/homePageBackground.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-
-/* Content overlay */
-.content {
-    position: relative; /* Position content above the background */
-    z-index: 1; /* Higher z-index to sit above the background */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    width: 100%;
-    height: 100%;
-}
-
-/* Full-screen container for the background image */
-.backgroundContainer {
     position: relative;
     width: 100%;
     height: 100vh;
