@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ie.tcd.scss.apapung.Service.PokeService;
 
+import java.util.HashMap;
 import java.util.Map;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -27,10 +28,22 @@ public class PokeController {
         if (!pokeService.isValidName(pokemon)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("Error", "Pokemon name invalid"));
         }
-        // calculate the total base stat of the pokemon
-        int baseStats = 0;
+        // get the total base stats of the pokemon
+        int totalBaseStats = pokeService.getPokeApiStats(pokemon);
+        // change to pokemon name and a map of stats
+        // pokemon type, sprite, base stats
 
-        return ResponseEntity.ok(Map.of("Success", "The name was recognised as vaild."));
+        Map<String, Object> result = new HashMap<>();
+        result.put("Name", pokemon);
+        result.put("Base stats", totalBaseStats);
+        
+
+        // // sample base power to dogs ratio
+        // int dogsRequired = (int) totalBaseStats / 7;
+        // result.put("Dogs required", dogsRequired);
+
+        // return result
+        return ResponseEntity.ok(result);
 
     }
 
