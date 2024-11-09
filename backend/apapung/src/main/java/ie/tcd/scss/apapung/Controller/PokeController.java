@@ -1,5 +1,6 @@
 package ie.tcd.scss.apapung.Controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,38 +19,21 @@ public class PokeController {
 
     private final PokeService pokeService;
 
+    @Autowired
     public PokeController(PokeService pokeService) {
         this.pokeService = pokeService;
     }
 
-    @GetMapping("/{pokemon}/strength")
+    @GetMapping("/{pokemon}/stats")
     public ResponseEntity<Map<String, Object>> getPokeStats(@PathVariable String pokemon) {
         // determine if pokemon is a valid pokemon name
         if (!pokeService.isValidName(pokemon)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("Error", "Pokemon name invalid"));
         }
-        // get the total base stats of the pokemon
-        int totalBaseStats = pokeService.getPokeApiStats(pokemon);
-        // change to pokemon name and a map of stats
-        // pokemon type, sprite, base stats
-
-        Map<String, Object> result = new HashMap<>();
-        result.put("Name", pokemon);
-        result.put("Base stats", totalBaseStats);
-        
-
-        // // sample base power to dogs ratio
-        // int dogsRequired = (int) totalBaseStats / 7;
-        // result.put("Dogs required", dogsRequired);
 
         // return result
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(this.pokeService.getPokeApiStats(pokemon));
 
     }
-
-    // @GetMapping("/{pokemon}/sprite}")
-    // public String getMethodName(@RequestParam String param) {
-    // return "Function not fully developed.";
-    // }
 
 }
