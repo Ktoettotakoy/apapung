@@ -1,0 +1,50 @@
+/* Container to hold both divs */
+.screen {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; /* Ensures hidden div doesn't scroll */
+  }
+  
+  /* Full-screen div styling */
+  .fullscreenDiv {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: lightcoral; /* Change as desired */
+    transition: transform 0.8s ease-in-out;
+  }
+  
+  /* Content styling */
+  .content {
+    text-align: center;
+    font-size: 3rem;
+    color: white;
+  }
+  
+  /* Arrow button at the bottom */
+  .arrowButton {
+    position: absolute;
+    bottom: 20px;
+    background: transparent;
+    border: none;
+    font-size: 4rem;
+    color: white;
+    cursor: pointer;
+  }
+
+  /* Slide-up animation to hide the first div */
+  .slideUp {
+    transform: translateY(-100%); /* Slides div up and out of view */
+  }
+  
+  /* Second div styling */
+  .fullscreenDiv:nth-child(2) {
+    background-color: lightblue; /* Different color for second div */
+    z-index: -1; /* Ensures the second div is behind initially */
+  }
