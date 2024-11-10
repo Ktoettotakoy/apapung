@@ -5,7 +5,7 @@
     height: auto;               /* Let the card grow in height as needed */
     width: 100%;                /* Ensure card takes full available width */
     /* max-width: 450px;           Set max width for better control */
-    border-radius: 16px;        /* Rounded corners for a smooth look */
+    border-radius: 0px;        /* Rounded corners for a smooth look */
     overflow: hidden;           /* Prevent content overflow */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for a lift effect */
     transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth hover transition */
@@ -19,16 +19,20 @@
   
   /* Image styling */
   .cardImage {
-    width: 45%;               /* Image takes up 45% of the card's width */
-    height: 100%;             /* Fill the card's height */
+    background-image: url('/cardFrame.png');
+    background-size:cover;
+    background-position: center;
+    background-attachment: fixed;
+    width: 50%;               /* Image takes up 45% of the card's width */
+    height: auto;             /* Fill the card's height */
     object-fit: cover;        /* Ensures the image scales without distortion */
-    border-top-left-radius: 16px;
-    border-bottom-left-radius: 16px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
   }
   
   /* Info container styling */
   .infoContainer {
-    background-color: lightseagreen; /* Background color */
+    background-color: rgb(126, 123, 123); /* Background color */
     display: flex;
     flex-direction: column;
     flex: 1;                  /* Takes up the remaining width */
@@ -38,7 +42,8 @@
   
   /* Card name styling */
   .cardName {
-    font-size: 20px;
+    font-size: auto;
+    font-family: 'Press Start 2P', sans-serif;
     font-weight: bold;        /* Bold for better emphasis */
     color: #fff;              /* White text for contrast */
     text-align: left;
@@ -56,7 +61,8 @@
   
   /* Individual parameter styling */
   .cardParameter {
-    font-size: 14px;          /* Slightly smaller size for the parameters */
+    font-size: auto;          /* Slightly smaller size for the parameters */
+    font-family: sans-serif;
     color: #fff;              /* White text for contrast */
     margin: 0;
     padding: 4px 0;           /* Add vertical padding */

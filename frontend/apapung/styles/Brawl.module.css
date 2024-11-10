@@ -52,21 +52,22 @@
   position: absolute;
   z-index: 4; /* Ensure the card is above other content */
   background-color: white;
-  border-radius: 32px; /* Smooth, rounded corners */
+  border-radius: 20px; /* Smooth, rounded corners */
   overflow: hidden; /* Hide anything that exceeds the rounded borders */
-  width: 45%;
-  height: 96%;
+  width: 40vw;
+  height: 30vh;
+  border: 10px solid rgb(33, 12, 12);
 }
 
 .pokemonCard {
   right: 2%;
-  top: 4%;
+  top: 10%;
   animation: movePokeCard 2.5s ease-out infinite;
 }
 
 .dogCard {
-  left: 0.5%;
-  top: 1%;
+  left: 1%;
+  bottom: 20%;
   animation: moveDogCard 2s ease-out infinite;
 }
 
