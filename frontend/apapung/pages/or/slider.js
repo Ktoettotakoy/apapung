@@ -7,12 +7,12 @@ export default function SliderPage() {
 
   // Product data
   const products = [
-    { id: 1, name: 'Pixel Sword', image: '/Picacku.gif' },
-    { id: 2, name: '8-Bit Shield', image: '/Picacku.gif' },
-    { id: 3, name: 'Retro Potion', image: '/Picacku.gif' },
-    { id: 4, name: 'Vintage Helmet', image: '/Picacku.gif' },
-    { id: 5, name: 'Arcade Boots', image: '/Picacku.gif' },
-    { id: 6, name: 'Classic Armor', image: '/Picacku.gif' },
+    { id: 1, name: 'product 1', image: '/Picacku.gif' },
+    { id: 2, name: 'product 2', image: '/Picacku.gif' },
+    { id: 3, name: 'product 3', image: '/Picacku.gif' },
+    { id: 4, name: 'product 4', image: '/Picacku.gif' },
+    { id: 5, name: 'product 5', image: '/Picacku.gif' },
+    { id: 6, name: 'product 6', image: '/Picacku.gif' },
   ];
 
   // Calculate indices for the 3 visible products

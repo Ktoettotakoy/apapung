@@ -2,7 +2,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #0d0d0d;
+    background-color: burlywood;
+    border: 20px solid saddlebrown;
     height: 100vh;
   }
   
@@ -14,8 +15,8 @@
   }
   
   .productCard {
-    width: 20vw;
-    height: 40vhpx;
+    width: 25vw;
+    height: 50vhpx;
     margin: 0 10px;
     overflow: hidden;
     text-align: center;
@@ -23,6 +24,8 @@
     transition: transform 0.3s, opacity 0.3s;
     opacity: 0.6;
     filter: contrast(0.8);
+    border: 10px solid sienna;
+    border-radius: 10px;
   }
   
   .productCard img {
@@ -56,6 +59,18 @@
   .navButton:focus {
     outline: none;
   }
+
+  .carouselContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-image: url('/amazonProductBackground.png'); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+  }
+  
   
 
   
