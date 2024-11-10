@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useState, useEffect } from "react";
 import styles from "../../styles/Or.module.css";
 import Slider from "../../components/slider";
+import { useRouter } from "next/router";
 
 export default function OrPage() {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0); // Track the current message
@@ -25,6 +26,8 @@ export default function OrPage() {
       setShowSecondDiv(true); // Transition to the second div
     }
   };
+
+  const router = useRouter();
 
   return (
     <div className={styles.screen}>
@@ -52,6 +55,9 @@ export default function OrPage() {
         }`}
       >
         <Slider />
+        <button className={styles.restartButton} onClick={() => router.push("/")}>
+          Restart
+        </button>
       </div>
     </div>
   );

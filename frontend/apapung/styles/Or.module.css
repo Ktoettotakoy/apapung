@@ -120,4 +120,28 @@
   .noPointerEvents {
     pointer-events: none;
   }
+
+  .restartButton {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 1.5vh 3vw;
+    font-size: 1vw;
+    font-family: 'Press Start 2P', cursive;
+    color: #fff;
+    background-color: yellow;
+    border: 3px solid #333;
+    border-radius: 10px;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 4px 4px 0px #333;
+    z-index: 100;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .restartButton:hover {
+    transform: translateX(-50%) scale(1.05);
+    background-color: yellow;
+  }
   
