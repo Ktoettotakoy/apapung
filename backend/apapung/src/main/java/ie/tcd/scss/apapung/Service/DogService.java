@@ -1,68 +1,109 @@
-// package ie.tcd.scss.apapung.Service;
+package ie.tcd.scss.apapung.Service;
 
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.beans.factory.annotation.Value;
-// import org.springframework.stereotype.Service;
-// import org.springframework.web.client.RestTemplate;
-// import org.springframework.http.HttpHeaders;
-// import org.springframework.http.HttpEntity;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.http.HttpMethod;
-// import java.util.List;
-// import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpMethod;
 
-// @Service
-// public class DogService {
+import java.util.List;
+import java.util.Map;
 
-//     @Autowired
-//     private RestTemplate restTemplate;
+@Service
+public class DogService {
 
-//     @Value("${external.dog.api.key}")
-//     private String apiKey;
+    @Autowired
+    private RestTemplate restTemplate;
 
-//     public Map<String, Object> getBreedInfo(String breedQuery) {
-//         // Construct the URL for searching the breed and sub-breed
-//         String url = "https://api.thedogapi.com/v1/breeds/search?q=" + breedQuery;
+    @Value("${external.dog.api.key}")
+    private String apiKey;
 
-//         // Set up headers
-//         HttpHeaders headers = new HttpHeaders();
-//         headers.set("x-api-key", apiKey);
+    public Map<String, Object> getBreedInfo(String breedQuery) {
+        // Construct the URL for searching the breed and sub-breed
+        String url = "https://api.thedogapi.com/v1/breeds/search?q=" + breedQuery;
 
-//         HttpEntity<String> entity = new HttpEntity<>(headers);
+        // Set up headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("x-api-key", apiKey);
 
-//         // Make the GET request
-//         ResponseEntity<List> response = restTemplate.exchange(url, HttpMethod.GET, entity, List.class);
-//         List<Map<String, Object>> breeds = response.getBody();
+        HttpEntity<String> entity = new HttpEntity<>(headers);
 
-//         if (breeds != null && !breeds.isEmpty()) {
-//             Map<String, Object> breedInfo = breeds.get(0);  // Get the first result
+        // Make the GET request
+        ResponseEntity<List> response = restTemplate.exchange(url, HttpMethod.GET, entity, List.class);
+        List<Map<String, Object>> breeds = response.getBody();
 
-//             // Fetch images using the breed ID from the response
-//             int breedId = (int) breedInfo.get("id");
-//             List<String> images = getBreedImages(breedId);
+        if (breeds != null && !breeds.isEmpty()) {
+            Map<String, Object> breedInfo = breeds.get(0);  // Get the first result
 
-//             // Add images to the breed info
-//             breedInfo.put("images", images);
-//             return breedInfo;
-//         } else {
-//             throw new RuntimeException("No data found for breed: " + breedQuery);
-//         }
-//     }
+            // Fetch images using the breed ID from the response
+            int breedId = (int) breedInfo.get("id");
+            List<String> images = getBreedImages(breedId);
 
-//     private List<String> getBreedImages(int breedId) {
-//         String url = "https://api.thedogapi.com/v1/images/search?breed_id=" + breedId + "&limit=5"; // Limit to 5 images
+            // Add images to the breed info
+            breedInfo.put("images", images);
 
-//         HttpHeaders headers = new HttpHeaders();
-//         headers.set("x-api-key", apiKey);
+            // Calculate and add the strength score to the breed info
+            int strengthScore = calculateStrengthScore(breedInfo);
+            breedInfo.put("strength", strengthScore);
 
-//         HttpEntity<String> entity = new HttpEntity<>(headers);
+            return breedInfo;
+        } else {
+            throw new RuntimeException("No data found for breed: " + breedQuery);
+        }
+    }
 
-//         ResponseEntity<List> response = restTemplate.exchange(url, HttpMethod.GET, entity, List.class);
-//         List<Map<String, Object>> imagesData = response.getBody();
+    private List<String> getBreedImages(int breedId) {
+        String url = "https://api.thedogapi.com/v1/images/search?breed_id=" + breedId + "&limit=5"; // Limit to 5 images
 
-//         return imagesData.stream()
-//                          .map(imageData -> (String) imageData.get("url"))
-//                          .toList();
-//     }
-// }
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("x-api-key", apiKey);
 
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<List> response = restTemplate.exchange(url, HttpMethod.GET, entity, List.class);
+        List<Map<String, Object>> imagesData = response.getBody();
+
+        return imagesData.stream()
+                         .map(imageData -> (String) imageData.get("url"))
+                         .toList();
+    }
+
+    public int calculateStrengthScore(Map<String, Object> breedInfo) {
+        int weightScore = 0;
+        int heightScore = 0;
+
+        // Weight: get the metric weight and normalize it
+        Map<String, String> weightMap = (Map<String, String>) breedInfo.get("weight");
+        if (weightMap != null) {
+            String metricWeight = weightMap.get("metric");
+            int avgWeight = parseRangeToAverage(metricWeight);
+            weightScore = Math.min(avgWeight * 2, 40); // Max out weight score at 40
+        }
+
+        // Height: get the metric height and normalize it
+        Map<String, String> heightMap = (Map<String, String>) breedInfo.get("height");
+        if (heightMap != null) {
+            String metricHeight = heightMap.get("metric");
+            int avgHeight = parseRangeToAverage(metricHeight);
+            heightScore = Math.min(avgHeight, 30); // Max out height score at 30
+        }
+
+        // Calculate the final score, with a max of 100
+        return weightScore + heightScore;
+    }
+
+    // Helper method to parse a range and get the average
+    private int parseRangeToAverage(String range) {
+        try {
+            String[] parts = range.split("-");
+            int low = Integer.parseInt(parts[0].trim());
+            int high = Integer.parseInt(parts[1].trim());
+            return (low + high) / 2;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+}
