@@ -21,7 +21,7 @@
   
   /* First screen background styling */
   .firstScreen {
-    background-image: url('/homePageBackground.jpg');
+    background-image: url('/battleBackground.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -31,7 +31,7 @@
   
   /* Second screen background styling */
   .secondScreen {
-    background-image: url('/orDialogueBackground.png');
+    background-image: url('/amazonBackground.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

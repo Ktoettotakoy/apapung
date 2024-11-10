@@ -1,50 +1,121 @@
+/* Carousel Container */
 .carouselContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* background-color: burlywood; */
-  /* border: 20px solid saddlebrown; */
-  width: 115vh;
-  height: 50vw;
-}
-
-.carousel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  perspective: 1000px;
-}
-
-.productCard {
-  width: 24vw;
-  height: 18vh;
-  margin: 0 10px;
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  height: 600px;
+  margin: 0 auto;
   overflow: hidden;
-  text-align: center;
-  transform: scale(0.8);
-  transition: transform 0.3s, opacity 0.3s;
+}
+
+/* Carousel */
+.carousel {
+  width: 100%;
+  height: 100%;
+  perspective: 1000px;
+  position: relative;
+}
+
+/* Product Card */
+.productCard {
+  width: 80%;
+  height: 90%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  border: 5px solid sienna;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+/* Positions */
+.productCard.left {
+  transform: translate(-120%, -50%) scale(0.7); /* Adjusted */
   opacity: 0.6;
   filter: contrast(0.8);
-  border: 10px solid sienna;
-  border-radius: 10px;
+  z-index: 1;
 }
 
-.cardAdditionalStyles {
-  height: 100%;
-  width: auto;
-}
-
-.activeProduct {
-  transform: scale(1.2);
+.productCard.center {
+  transform: translate(-50%, -50%) scale(1);
   opacity: 1;
   filter: contrast(1);
+  z-index: 3;
 }
 
+.productCard.right {
+  transform: translate(20%, -50%) scale(0.7); /* Adjusted */
+  opacity: 0.6;
+  filter: contrast(0.8);
+  z-index: 1;
+}
+
+/* Transition Classes */
+.productEnter {
+  opacity: 0;
+}
+
+.productEnterActive {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.productExit {
+  opacity: 1;
+}
+
+.productExitActive {
+  opacity: 0;
+  transition: opacity 500ms ease-out;
+}
+
+/* Navigation Button */
 .navButton {
   background: none;
   border: none;
-  color: #fff;
+  color: #333;
   font-size: 50px;
   cursor: pointer;
   font-family: 'Press Start 2P', cursive;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+}
+
+.navButton.prev {
+  left: 10px;
+}
+
+.navButton.next {
+  right: 10px;
+}
+
+/* Image Container */
+.imageContainer {
+  width: 100%;
+  height: 100%;
+}
+
+/* Product Image */
+.productImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Product Name */
+.productName {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 1.5rem;
+  color: #333;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 10px 0;
 }
