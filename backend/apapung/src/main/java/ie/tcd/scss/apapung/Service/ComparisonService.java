@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 @Service
 public class ComparisonService {
+    private static final int SCALING_COEFFICIENT = 69;
     private static final Logger logger = LoggerFactory.getLogger(ComparisonService.class);
 
     @Autowired
@@ -40,7 +41,8 @@ public class ComparisonService {
             throw new RuntimeException("Breed information not found for dog: " + dogName);
         }
 
-        double dogStrength = dogService.calculateStrengthScore(dogBreedInfo);
+        // scaling happens here
+        double dogStrength = dogService.calculateStrengthScore(dogBreedInfo) * SCALING_COEFFICIENT;
         logger.info("Dog Strength: {}", dogStrength);
 
         // Handle invalid dog strength score
