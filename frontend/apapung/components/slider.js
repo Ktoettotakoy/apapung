@@ -60,14 +60,14 @@ export default function Slider() {
                   exitActive: styles.productExitActive,
                 }}
               >
-                <div
-                  className={`${styles.productCard} ${styles[product.position]}`}
-                >
-                  <div className={styles.imageContainer}>
-                    <img src={product.image} alt={product.name} className={styles.productImage} />
-                  </div>
-                  <h3 className={styles.productName}>{product.name}</h3>
+              <div className={`${styles.productCard} ${styles[product.position]}`}>
+                <div className={styles.imageContainer}>
+                  <img src={product.image} alt={product.name} className={styles.productImage} />
                 </div>
+                <h3 className={styles.productName}>{product.name}</h3>
+                <p className={styles.parameters}>{product.parameters}</p>
+              </div>
+
               </CSSTransition>
             ))}
           </TransitionGroup>
