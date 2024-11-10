@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class PokeService {
@@ -81,7 +82,9 @@ public class PokeService {
             ObjectMapper objectMapper = new ObjectMapper();
 
             // Use TypeReference to avoid unchecked conversion warning
-            Map<String, Object> responseMap = objectMapper.readValue(response.getBody(), new TypeReference<Map<String, Object>>() {});
+            Map<String, Object> responseMap = objectMapper.readValue(response.getBody(),
+                    new TypeReference<Map<String, Object>>() {
+                    });
 
             // Calculate the total base stats
             int totalBaseStat = 0;
@@ -89,34 +92,33 @@ public class PokeService {
             for (Map<String, Object> stat : stats) {
                 totalBaseStat += (int) stat.get("base_stat");
             }
-            String typesString = "";
-            List<Map<String, Object>> types = (List<Map<String, Object>>)responseMap.get("types");
-            for (Map<String, Object> type : types){
-                Map<String, Object> typeInfo = (Map<String, Object>) type.get("type");
-                typesString += (String) typeInfo.get("name") +", ";
-            }
-            typesString.substring(0, typesString.length()-2);
-            // get sprite if gen 5 sprite exists take it (as gen 5 sprites are better) otherwise take the gen 9 sprite --  i can do it later to look cool
+            // String typesString = "";
+            List<Map<String, Object>> types = (List<Map<String, Object>>) responseMap.get("types");
+            List<String> typesList = types.stream()
+                    .map(typeEntry -> (Map<String, Object>) typeEntry.get("type"))
+                    .map(typeMap -> (String) typeMap.get("name"))
+                    .collect(Collectors.toList());
+
+            // get sprite if gen 5 sprite exists take it (as gen 5 sprites are better)
+            // otherwise take the gen 9 sprite -- i can do it later to look cool
             Map<String, Object> sprites = (Map<String, Object>) responseMap.get("sprites");
             String spriteUrl = (String) sprites.get("front_default");
 
-        //     "generation-v": {
-        // "black-white": {
-        //   "animated": { "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/23.gif",
-            
+            // "generation-v": {
+            // "black-white": {
+            // "animated": { "front_default":
+            // "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/23.gif",
+
             int pokedexNumber = (int) responseMap.get("id");
 
             resultMap.put("Name", pokemon);
             resultMap.put("Dex number", pokedexNumber);
-            resultMap.put("Types", typesString);
+            resultMap.put("Types", typesList);
             resultMap.put("Total base stats", totalBaseStat);
             resultMap.put("Sprite url", spriteUrl);
-
-            
-    }
-        catch (JsonProcessingException e){
-        e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
-            return resultMap;
-        }
+        return resultMap;
     }
+}

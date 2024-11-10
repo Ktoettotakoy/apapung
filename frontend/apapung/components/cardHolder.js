@@ -12,21 +12,21 @@ export default function CardHolder({
 }) {
   const [showInput, setShowInput] = useState(false);
   const [clickMeOnce, setClickMeOnce] = useState(true);
-  const [cardData, setCardData] = useState(null);
+  // const [cardData, setCardData] = useState(null);
 
   const handleInputSubmit = (input) => {
-    const data = {
-      name: input,
-      image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/23.png",
-      parameter1: "Example Parameter",
-    };
-    setCardData(data);
-    onCardSubmit(data);
+    console.log("called handleInputSubmit");
+    // const data = {
+    //   name: input,
+    //   image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/23.png",
+    //   parameter1: "Example Parameter",
+    // };
+    // setCardData(data);
+    onCardSubmit(input);
     setShowInput(false); // Close the modal
   };
 
   const handleButtonClickStart = () => {
-    console.log("Button clicked for"); // Debugging click
     setClickMeOnce(false);
     setShowInput(true); // Show the modal
   };
@@ -56,15 +56,6 @@ export default function CardHolder({
             </button>
           </div>
         </div>
-      )}
-
-      {cardData && (
-        <Card
-          name={cardData.name}
-          image={cardData.image}
-          parameter1={cardData.parameter1}
-          className={cardStyles}
-        />
       )}
     </div>
   );

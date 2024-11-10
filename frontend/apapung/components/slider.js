@@ -8,12 +8,42 @@ export default function Slider() {
 
   // Product data
   const products = [
-    { id: 1, name: "product 1", image: "/Picacku.gif", parameter1: "test" },
-    { id: 2, name: "product 2", image: "/Picacku.gif", parameter1: "test" },
-    { id: 3, name: "product 3", image: "/Picacku.gif", parameter1: "test" },
-    { id: 4, name: "product 4", image: "/Picacku.gif", parameter1: "test" },
-    { id: 5, name: "product 5", image: "/Picacku.gif", parameter1: "test" },
-    { id: 6, name: "product 6", image: "/Picacku.gif", parameter1: "test" },
+    {
+      id: 1,
+      name: "product 1",
+      image: "/Picacku.gif",
+      parameters: JSON.stringify({ test: "Test" }, null, 2),
+    },
+    {
+      id: 2,
+      name: "product 2",
+      image: "/Picacku.gif",
+      parameters: JSON.stringify({ test: "Test" }, null, 2),
+    },
+    {
+      id: 3,
+      name: "product 3",
+      image: "/Picacku.gif",
+      parameters: JSON.stringify({ test: "Test" }, null, 2),
+    },
+    {
+      id: 4,
+      name: "product 4",
+      image: "/Picacku.gif",
+      parameters: JSON.stringify({ test: "Test" }, null, 2),
+    },
+    {
+      id: 5,
+      name: "product 5",
+      image: "/Picacku.gif",
+      parameters: JSON.stringify({ test: "Test" }, null, 2),
+    },
+    {
+      id: 6,
+      name: "product 6",
+      image: "/Picacku.gif",
+      parameters: JSON.stringify({ test: "Test" }, null, 2),
+    },
   ];
 
   // Calculate indices for the 3 visible products
