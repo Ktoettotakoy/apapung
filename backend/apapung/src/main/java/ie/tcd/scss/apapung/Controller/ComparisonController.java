@@ -16,19 +16,31 @@ public class ComparisonController {
     private ComparisonService comparisonService;
 
     @GetMapping("/compare/{pokemonName}/{dogName}")
-    public Map<String, Object> comparePokemonAndDog(
+    public Map<String, Object> comparePokemonAndDogs(
             @PathVariable String pokemonName, 
             @PathVariable String dogName) {
-
-        // Call the service to calculate the number of dogs needed
-        int dogsNeeded = comparisonService.compareDogsAndPokemon(pokemonName, dogName);
-
-        // Prepare the response
         Map<String, Object> response = new HashMap<>();
-        response.put("pokemon", pokemonName);
-        response.put("dogBreed", dogName);
-        response.put("dogsNeeded", dogsNeeded);
         
+        try {
+            // Call the service to calculate the number of dogs needed
+            Map<String, Object> result = comparisonService.comparePokemonAndDogs(pokemonName, dogName);
+
+            // Extract data from the result map
+            int dogsNeeded = (int) result.get("dogsNeeded");
+            int dogStrength = (int) result.get("dogStrength");
+            int pokemonBaseStatTotal = (int) result.get("pokemonBaseStatTotal");
+
+            // Prepare the response with the comparison details
+            response.put("pokemon", pokemonName);
+            response.put("dogBreed", dogName);
+            response.put("dogsNeeded", dogsNeeded);
+            response.put("dogStrength", dogStrength);
+            response.put("pokemonBaseStatTotal", pokemonBaseStatTotal);
+        } catch (Exception e) {
+            // Handle error and return a response
+            response.put("error", "Error occurred during comparison: " + e.getMessage());
+        }
         return response;
     }
 }
+
