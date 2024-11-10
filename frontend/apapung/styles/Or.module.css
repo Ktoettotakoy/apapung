@@ -1,12 +1,13 @@
-/* Container to hold both divs */
+/* Main screen container for both pages */
 .screen {
     position: relative;
     width: 100vw;
     height: 100vh;
-    overflow: hidden; /* Ensures hidden div doesn't scroll */
+    overflow: hidden;
+    transition: transform 0.8s ease-in-out;
   }
   
-  /* Full-screen div styling */
+  /* Fullscreen div styling */
   .fullscreenDiv {
     position: absolute;
     top: 0;
@@ -16,120 +17,96 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.8s ease-in-out;
-
+    z-index: 1;
+  }
+  
+  /* First screen background */
+  .firstScreen {
     background-image: url('/homePageBackground.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    transition: transform 0.8s ease-in-out;
+  }
+  
+  /* Second screen background */
+  .secondScreen {
+    background-image: url('/orDialogueBackground.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: none;
+  }
+  
+  /* Animation classes for transition */
+  .show {
+    display: flex !important;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  .slideUp {
+    transform: translateY(-100%);
+  }
+  
+  .transformUp {
+    transform: translateY(-100%);
+  }
+  
+  /* Pokémon character styling */
+  .pokemonCharacter {
+    position: absolute;
+    top: 35%;
+    right: 200px;
+    width: 600px;
     z-index: 1;
   }
-
-  /* Pokémon character positioning */
-.pokemonCharacter {
-    position: absolute;
-    top: 35%; /* Adjust this value to position the Pokémon */
-    right: 200px; /* Adjust this value to position the Pokémon */
-    width: 600px; /* Size of the Pokémon character */
-    z-index: 1; /* Ensure it's above other content */
-}
-
-/* Speech bubble styling */
-.speechBubble {
+  
+  /* Speech bubble styling */
+  .speechBubble {
     position: absolute;
     font-family: 'Press Start 2P';
-    top: 30%; /* Position the bubble above the character */
-    right: 600px; /* Adjust position based on Pokémon's location */
+    top: 30%;
+    right: 600px;
     border-radius: 16px;
     padding: 16px;
     height: 200px;
-    width: auto;
     max-width: 300px;
     font-size: 1.2rem;
     color: black;
     z-index: 1;
     animation: bubbleAnimation 1.5s ease-in-out;
-
     background-image: url('/bubble.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-
     cursor: pointer;
-}
-
-  /* Optional: Animation for the speech bubble */
-    @keyframes bubbleAnimation {
-        0% {
-            opacity: 0.3;
-            transform: translateY(8px);
-        }
-        100% {
-            opacity: 1;
-            transform: translateY(0);
-        }
+  }
+  
+  @keyframes bubbleAnimation {
+    0% {
+      opacity: 0.3;
+      transform: translateY(8px);
     }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
   
   /* Content styling */
   .content {
     text-align: left;
     font-size: 3rem;
   }
-  
-  /* Arrow button at the bottom */
-  .arrowButton {
-    position: absolute;
-    bottom: 20px;
-    background: transparent;
-    border: none;
-    font-size: 4rem;
-    color: white;
-    cursor: pointer;
-  }
 
   /* Slide-up animation to hide the first div */
   .slideUp {
-    transform: translateY(-100%); /* Slides div up and out of view */
+    transform: translateY(-100%); 
     transition: transform 0.8s ease-in-out;
-    pointer-events: none; /* Add this line */
-  }
-  
-  
-  /* Second div styling */
-  .fullscreenDiv:nth-child(2) {
-    background-image: url('/orDialogueBackround.png');
-    background-color: lightblue; /* Different color for second div */
-    z-index: -1; /* Ensures the second div is behind initially */
-  }
-
-  .content{
-    font-family: 'Press Start 2P', cursive;
-    margin-left: 20px;
-  }
-
-  .amazonButton{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 80%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 300px;
-  height: auto;
-  z-index: 10;
-  cursor: pointer;
-  }
-
-  .amazonButtonImage {
-    width: 200px; /* Increase the width */
-    height: auto; /* Maintain aspect ratio */
-    max-width: 300px; /* Limit maximum width */
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    z-index: 10;
-    pointer-events: auto;
+    pointer-events: none; 
   }
 
   /* Screen Transition */

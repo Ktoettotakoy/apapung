@@ -1,76 +1,57 @@
 .carouselContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: burlywood;
-    border: 20px solid saddlebrown;
-    height: 100vh;
-  }
-  
-  .carousel {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    perspective: 1000px;
-  }
-  
-  .productCard {
-    width: 25vw;
-    height: 50vhpx;
-    margin: 0 10px;
-    overflow: hidden;
-    text-align: center;
-    transform: scale(0.8);
-    transition: transform 0.3s, opacity 0.3s;
-    opacity: 0.6;
-    filter: contrast(0.8);
-    border: 10px solid sienna;
-    border-radius: 10px;
-  }
-  
-  .productCard img {
-    width: 100%;
-    height: auto;
-    image-rendering: pixelated;
-  }
-  
-  .productCard p {
-    font-family: 'Press Start 2P', cursive;
-    color: #fff;
-    margin-top: 10px;
-    font-size: 12px;
-  }
-  
-  .activeProduct {
-    transform: scale(1.2);
-    opacity: 1;
-    filter: contrast(1);
-  }
-  
-  .navButton {
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 50px;
-    cursor: pointer;
-    font-family: 'Press Start 2P', cursive;
-  }
-  
-  .navButton:focus {
-    outline: none;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: burlywood;
+  border: 20px solid saddlebrown;
+  width: 115vh;
+  height: 50vw;
+}
 
-  .carouselContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* background-image: url('/amazonProductBackground.png'); */
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    height: 100vh;
-  }
-  
-  
+.carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+}
 
-  
+.productCard {
+  width: 25vw;
+  margin: 0 10px;
+  overflow: hidden;
+  text-align: center;
+  transform: scale(0.8);
+  transition: transform 0.3s, opacity 0.3s;
+  opacity: 0.6;
+  filter: contrast(0.8);
+  border: 10px solid sienna;
+  border-radius: 10px;
+}
+
+.productCard img {
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+}
+
+.productCard p {
+  font-family: 'Press Start 2P', cursive;
+  color: #fff;
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.activeProduct {
+  transform: scale(1.2);
+  opacity: 1;
+  filter: contrast(1);
+}
+
+.navButton {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 50px;
+  cursor: pointer;
+  font-family: 'Press Start 2P', cursive;
+}
