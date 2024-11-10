@@ -2,8 +2,8 @@
 .card {
     display: flex;
     flex-direction: row;
-    height: auto;               /* Let the card grow in height as needed */
-    width: 100%;                /* Ensure card takes full available width */
+    height: 30vh;               /* Let the card grow in height as needed */
+    width: auto;                /* Ensure card takes full available width */
     /* max-width: 450px;           Set max width for better control */
     border-radius: 0px;        /* Rounded corners for a smooth look */
     overflow: hidden;           /* Prevent content overflow */
