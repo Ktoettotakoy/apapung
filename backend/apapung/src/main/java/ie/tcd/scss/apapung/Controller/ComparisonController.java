@@ -27,7 +27,7 @@ public class ComparisonController {
 
             // Extract data from the result map
             int dogsNeeded = (int) result.get("dogsNeeded");
-            int dogStrength = (int) result.get("dogStrength");
+            double dogStrength = (double) result.get("dogStrength");
             int pokemonBaseStatTotal = (int) result.get("pokemonBaseStatTotal");
 
             // Prepare the response with the comparison details

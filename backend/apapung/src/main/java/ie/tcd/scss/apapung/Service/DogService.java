@@ -46,7 +46,7 @@ public class DogService {
             breedInfo.put("images", images);
 
             // Calculate and add the strength score to the breed info
-            int strengthScore = calculateStrengthScore(breedInfo);
+            double strengthScore = calculateStrengthScore(breedInfo);
             breedInfo.put("strength", strengthScore);
 
             return breedInfo;
@@ -71,7 +71,7 @@ public class DogService {
                          .toList();
     }
 
-    public int calculateStrengthScore(Map<String, Object> breedInfo) {
+    public double calculateStrengthScore(Map<String, Object> breedInfo) {
         int weightScore = 0;
         int heightScore = 0;
 
@@ -91,8 +91,13 @@ public class DogService {
             heightScore = Math.min(avgHeight, 30); // Max out height score at 30
         }
 
-        // Calculate the final score, with a max of 100
-        return weightScore + heightScore;
+        // Calculate the raw strength score, with a max of 100
+        double rawStrengthScore = weightScore + heightScore;
+
+        // Now, scale it down to the range 0.01 to 1
+        // Assuming the max possible raw strength score is 70 (40 + 30 from weight and height max)
+        double normalizedStrength = Math.min(rawStrengthScore / 70.0, 1.0); // Scale to [0, 1]
+        return Math.max(normalizedStrength * 0.99 + 0.01, 0.01); // Scale to [0.01, 1]
     }
 
     // Helper method to parse a range and get the average
