@@ -6,7 +6,6 @@ import Card from "./Card";
 
 export default function CardHolder({
   startButtonPlaceholder,
-  cardStyles,
   popUpModalPlaceholder,
   onCardSubmit,
 }) {

@@ -23,9 +23,9 @@
     background-size:cover;
     background-position: center;
     background-attachment: fixed;
-    width: 50%;               /* Image takes up 45% of the card's width */
+    width: 45%;               /* Image takes up 45% of the card's width */
     height: auto;             /* Fill the card's height */
-    object-fit: cover;        /* Ensures the image scales without distortion */
+    object-fit: fill;        /* Ensures the image scales without distortion */
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
   }

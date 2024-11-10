@@ -20,8 +20,14 @@ export default function Brawl() {
       const response = await fetch(`http://localhost:8080/pokemon/${input}/stats`);
       const data = await response.json();
 
-      // if (response.status(404)) {
-      // }
+      if (response.status == 404) {
+        setPokemonData({
+          name: "Pokemon is not found, please reload the whole page by pressing reload in the bottom right corner",
+          image: "",
+          parameters: JSON.stringify({}, null, 2),
+        });
+        return;
+      }
 
       // for debug purposes
       // const data = {
@@ -87,7 +93,6 @@ export default function Brawl() {
       <div className={styles.pokemonContainer}>
         <CardHolder
           startButtonPlaceholder={"Click to choose a pokemon"}
-          cardStyles={styles.pokemonCard}
           popUpModalPlaceholder={"Enter pokemon name"}
           onCardSubmit={handlePokemonSubmit}
         ></CardHolder>
@@ -114,7 +119,6 @@ export default function Brawl() {
       <div className={styles.dogContainer}>
         <CardHolder
           startButtonPlaceholder={"Click to choose a dog breed"}
-          cardStyles={styles.dogCard}
           popUpModalPlaceholder={"Enter dog breed"}
           onCardSubmit={handleDogSubmit}
         ></CardHolder>
