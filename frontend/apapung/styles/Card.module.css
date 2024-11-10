@@ -2,39 +2,74 @@
 .card {
     display: flex;
     flex-direction: row;
-    height: 100%; 
-    border-radius: 32px;
-}
-
-/* Image styling */
-.cardImage {
-    width: 45%;               /* Take 40% of the card's width */
+    height: auto;               /* Let the card grow in height as needed */
+    width: 100%;                /* Ensure card takes full available width */
+    /* max-width: 450px;           Set max width for better control */
+    border-radius: 16px;        /* Rounded corners for a smooth look */
+    overflow: hidden;           /* Prevent content overflow */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for a lift effect */
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth hover transition */
+  }
+  
+  /* Hover effect to slightly enlarge the card */
+  .card:hover {
+    transform: scale(1.05); /* Slightly enlarge the card on hover */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+  }
+  
+  /* Image styling */
+  .cardImage {
+    width: 45%;               /* Image takes up 45% of the card's width */
     height: 100%;             /* Fill the card's height */
     object-fit: cover;        /* Ensures the image scales without distortion */
-}
-
-/* Info container styling */
-.infoContainer {
-    background-color: lightseagreen;
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+  }
+  
+  /* Info container styling */
+  .infoContainer {
+    background-color: lightseagreen; /* Background color */
     display: flex;
-    flex: 1;                  /* Takes up the remaining 60% of the width */
     flex-direction: column;
-    padding: 10px;
-    box-sizing: border-box;   /* Ensures padding doesn't affect width */
-}
-
-/* Card name styling */
-.cardName {
+    flex: 1;                  /* Takes up the remaining width */
+    padding: 16px;            /* Add padding inside the info container */
+    box-sizing: border-box;   /* Ensures padding doesn't affect the layout */
+  }
+  
+  /* Card name styling */
+  .cardName {
     font-size: 20px;
+    font-weight: bold;        /* Bold for better emphasis */
+    color: #fff;              /* White text for contrast */
     text-align: left;
     margin-top: 0px;
-    margin-bottom: 16px;
-}
-
-/* Card parameter styling */
-.cardParameter {
-    font-size: 16px;
-    text-align: left;
-    margin-top: 0px;
-    margin-bottom: 8px;
-}
+    margin-bottom: 16px;      /* Adds space below the name */
+    text-transform: capitalize; /* Capitalize first letter of each word */
+  }
+  
+  /* Parameter container styling */
+  .parameterContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;                 /* Adds some space between each parameter */
+  }
+  
+  /* Individual parameter styling */
+  .cardParameter {
+    font-size: 14px;          /* Slightly smaller size for the parameters */
+    color: #fff;              /* White text for contrast */
+    margin: 0;
+    padding: 4px 0;           /* Add vertical padding */
+  }
+  
+  /* Styling for parameter keys (e.g., "Types", "Base stats") */
+  .parameterKey {
+    font-weight: bold;
+    color: #fff;              /* Make keys stand out in white */
+  }
+  
+  /* Styling for parameter values */
+  .parameterValue {
+    font-weight: normal;
+    color: #f0f0f0;           /* Light gray color for values */
+  }

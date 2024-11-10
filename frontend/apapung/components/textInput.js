@@ -7,13 +7,6 @@ export default function TextInput({
 }) {
   const [input, setInput] = useState("");
 
-  // Define the foo function
-  const foo = () => {
-    console.log("Function 'foo' called with input:", input);
-    // Perform any action you want with the input here
-    setInput(""); // Clear the input after handling if needed
-  };
-
   // Handle input change
   const handleChange = (e) => {
     setInput(e.target.value);
@@ -22,7 +15,7 @@ export default function TextInput({
   // Handle Enter key press
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      foo();
+      console.log("Function 'handleKeyPress' called with input:", input);
       onEnter(input); // Pass the input to the parent component's callback
       setInput(""); // Clear the input after handling
     }
