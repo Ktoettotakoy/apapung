@@ -3,7 +3,6 @@
     display: flex;
     flex-direction: row;
     height: 100%; 
-    border: pink;
     border-radius: 32px;
 }
 

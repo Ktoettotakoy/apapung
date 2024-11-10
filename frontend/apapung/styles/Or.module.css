@@ -1,4 +1,4 @@
-/* Main screen container for both pages */
+/* Main container for both screens */
 .screen {
     position: relative;
     width: 100vw;
@@ -7,7 +7,7 @@
     transition: transform 0.8s ease-in-out;
   }
   
-  /* Fullscreen div styling */
+  /* Shared full-screen div styling */
   .fullscreenDiv {
     position: absolute;
     top: 0;
@@ -17,28 +17,29 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1;
   }
   
-  /* First screen background */
+  /* First screen background styling */
   .firstScreen {
     background-image: url('/homePageBackground.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    z-index: 2;
     transition: transform 0.8s ease-in-out;
   }
   
-  /* Second screen background */
+  /* Second screen background styling */
   .secondScreen {
     background-image: url('/orDialogueBackground.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    display: none;
+    z-index: 1;
+    display: none; /* Hidden initially */
   }
   
-  /* Animation classes for transition */
+  /* Classes to toggle screen visibility */
   .show {
     display: flex !important;
   }
@@ -47,21 +48,25 @@
     display: none !important;
   }
   
+  /* Slide-up animation to transition the first screen out of view */
   .slideUp {
-    transform: translateY(-100%);
+    transform: translateY(-200%);
+    transition: transform 0.8s ease-in-out;
+    pointer-events: none;
   }
   
+  /* Slide-up for entire screen transition */
   .transformUp {
     transform: translateY(-100%);
   }
   
-  /* Pokémon character styling */
+  /* Pokémon character positioning */
   .pokemonCharacter {
     position: absolute;
     top: 35%;
     right: 200px;
     width: 600px;
-    z-index: 1;
+    z-index: 3;
   }
   
   /* Speech bubble styling */
@@ -76,13 +81,13 @@
     max-width: 300px;
     font-size: 1.2rem;
     color: black;
-    z-index: 1;
-    animation: bubbleAnimation 1.5s ease-in-out;
+    z-index: 3;
     background-image: url('/bubble.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
     cursor: pointer;
+    animation: bubbleAnimation 1.5s ease-in-out;
   }
   
   @keyframes bubbleAnimation {
@@ -96,48 +101,23 @@
     }
   }
   
-  /* Content styling */
-  .content {
-    text-align: left;
-    font-size: 3rem;
+  /* Second screen product slider styling */
+  .productsSlider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('/homePageBackground.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }
-
-  /* Slide-up animation to hide the first div */
-  .slideUp {
-    transform: translateY(-100%); 
-    transition: transform 0.8s ease-in-out;
-    pointer-events: none; 
+  
+  /* Disable pointer events to prevent interaction during transitions */
+  .noPointerEvents {
+    pointer-events: none;
   }
-
-  /* Screen Transition */
-.screen {
-  transition: transform 0.6s ease-in-out;
-}
-
-/* Move the entire screen up by 100% */
-.transformUp {
-  transform: translateY(-100%);
-}
-
-.productsSlider {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: transform 0.8s ease-in-out;
-
-  background-image: url('/homePageBackground.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
-.noPointerEvents {
-  pointer-events: none;
-}
-
+  

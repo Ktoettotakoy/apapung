@@ -2,8 +2,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: burlywood;
-  border: 20px solid saddlebrown;
+  /* background-color: burlywood; */
+  /* border: 20px solid saddlebrown; */
   width: 115vh;
   height: 50vw;
 }
@@ -16,7 +16,8 @@
 }
 
 .productCard {
-  width: 25vw;
+  width: 24vw;
+  height: 18vh;
   margin: 0 10px;
   overflow: hidden;
   text-align: center;
@@ -28,17 +29,9 @@
   border-radius: 10px;
 }
 
-.productCard img {
-  width: 100%;
-  height: auto;
-  image-rendering: pixelated;
-}
-
-.productCard p {
-  font-family: 'Press Start 2P', cursive;
-  color: #fff;
-  margin-top: 10px;
-  font-size: 12px;
+.cardAdditionalStyles {
+  height: 100%;
+  width: auto;
 }
 
 .activeProduct {

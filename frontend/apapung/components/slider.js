@@ -1,18 +1,19 @@
 import { useState } from "react";
 import Head from "next/head";
 import styles from "../styles/Slider.module.css";
+import Card from "./Card";
 
 export default function Slider() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Product data
   const products = [
-    { id: 1, name: "product 1", image: "/Picacku.gif" },
-    { id: 2, name: "product 2", image: "/Picacku.gif" },
-    { id: 3, name: "product 3", image: "/Picacku.gif" },
-    { id: 4, name: "product 4", image: "/Picacku.gif" },
-    { id: 5, name: "product 5", image: "/Picacku.gif" },
-    { id: 6, name: "product 6", image: "/Picacku.gif" },
+    { id: 1, name: "product 1", image: "/Picacku.gif", parameter1: "test" },
+    { id: 2, name: "product 2", image: "/Picacku.gif", parameter1: "test" },
+    { id: 3, name: "product 3", image: "/Picacku.gif", parameter1: "test" },
+    { id: 4, name: "product 4", image: "/Picacku.gif", parameter1: "test" },
+    { id: 5, name: "product 5", image: "/Picacku.gif", parameter1: "test" },
+    { id: 6, name: "product 6", image: "/Picacku.gif", parameter1: "test" },
   ];
 
   // Calculate indices for the 3 visible products
@@ -50,8 +51,7 @@ export default function Slider() {
               key={product.id}
               className={`${styles.productCard} ${index === 1 ? styles.activeProduct : ""}`}
             >
-              <img src={product.image} alt={product.name} />
-              <p>{product.name}</p>
+              <Card {...product} className={styles.cardAdditionalStyles} />
             </div>
           ))}
         </div>
