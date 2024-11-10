@@ -40,7 +40,7 @@ public class ComparisonService {
             throw new RuntimeException("Breed information not found for dog: " + dogName);
         }
 
-        int dogStrength = dogService.calculateStrengthScore(dogBreedInfo);
+        double dogStrength = dogService.calculateStrengthScore(dogBreedInfo);
         logger.info("Dog Strength: {}", dogStrength);
 
         // Handle invalid dog strength score
