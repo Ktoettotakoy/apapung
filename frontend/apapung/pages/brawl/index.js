@@ -17,18 +17,21 @@ export default function Brawl() {
     console.log("Called handlePokemonSubmit");
     try {
       console.log("API ACCESS");
-      // const response = await fetch(`http://localhost:8080/pokemon/${input}/stats`);
-      // const data = await response.json();
+      const response = await fetch(`http://localhost:8080/pokemon/${input}/stats`);
+      const data = await response.json();
+
+      // if (response.status(404)) {
+      // }
 
       // for debug purposes
-      const data = {
-        Types: ["electric"],
-        "Sprite url":
-          "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/404.png",
-        "Total base stats": 363,
-        "Dex number": 404,
-        Name: "luxio",
-      };
+      // const data = {
+      //   Types: ["electric"],
+      //   "Sprite url":
+      //     "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/404.png",
+      //   "Total base stats": 363,
+      //   "Dex number": 404,
+      //   Name: "luxio",
+      // };
       // Extract fields for Card component
       const { Name: name, "Sprite url": image, ...parameters } = data;
 
@@ -40,7 +43,6 @@ export default function Brawl() {
       });
     } catch (error) {
       console.error("Error fetching Pokemon data:", error);
-      alert("Failed to retrieve Pokemon data. Please try again.");
     }
   };
 

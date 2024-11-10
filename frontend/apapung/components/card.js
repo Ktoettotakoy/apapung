@@ -10,7 +10,7 @@ export default function Card({ name, image, parameters, className }) {
       <div className={styles.card}>
         <img src={image} alt={name} className={styles.cardImage} />
         <div className={styles.infoContainer}>
-          <h2 className={styles.cardName}>Name: {name}</h2>
+          <h2 className={styles.cardName}>Name:{name}</h2>
           <div className={styles.parameterContainer}>
             {parameterEntries.map(([key, value], index) => (
               <p key={index} className={styles.cardParameter}>
