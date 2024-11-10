@@ -2,6 +2,7 @@ package ie.tcd.scss.apapung.Controller;
 
 import ie.tcd.scss.apapung.Service.ComparisonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class ComparisonController {
 
     @Autowired
@@ -17,10 +19,10 @@ public class ComparisonController {
 
     @GetMapping("/compare/{pokemonName}/{dogName}")
     public Map<String, Object> comparePokemonAndDogs(
-            @PathVariable String pokemonName, 
+            @PathVariable String pokemonName,
             @PathVariable String dogName) {
         Map<String, Object> response = new HashMap<>();
-        
+
         try {
             // Call the service to calculate the number of dogs needed
             Map<String, Object> result = comparisonService.comparePokemonAndDogs(pokemonName, dogName);
@@ -43,4 +45,3 @@ public class ComparisonController {
         return response;
     }
 }
-
