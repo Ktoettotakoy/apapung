@@ -9,8 +9,16 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpMethod;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 @Service
 public class DogService {
@@ -49,6 +57,9 @@ public class DogService {
             double strengthScore = calculateStrengthScore(breedInfo);
             breedInfo.put("strength", strengthScore);
 
+            double dogPrice = getDogPrice(breedQuery);
+            breedInfo.put("average price", dogPrice);
+
             return breedInfo;
         } else {
             throw new RuntimeException("No data found for breed: " + breedQuery);
@@ -80,7 +91,7 @@ public class DogService {
         if (weightMap != null) {
             String metricWeight = weightMap.get("metric");
             int avgWeight = parseRangeToAverage(metricWeight);
-            weightScore = Math.min(avgWeight * 2, 40); // Max out weight score at 40
+            weightScore = Math.min(avgWeight, 20); // Max out weight score at 40
         }
 
         // Height: get the metric height and normalize it
@@ -109,6 +120,45 @@ public class DogService {
             return (low + high) / 2;
         } catch (Exception e) {
             return 0;
+        }
+    }
+
+
+    // Web scrape to find the average price of the breed
+    public double getDogPrice(String breed) {
+        try {
+            // URL to scrape
+            String url = "https://dogsforsaleireland.ie/search-results/?ad_title=" + breed;
+
+            Document document = Jsoup.connect(url).get();
+
+            Elements priceElements = document.select("div.price");
+
+            List<Double> prices = new ArrayList<>();
+
+            for (Element priceElement : priceElements) {
+                // Extract the price text
+                String priceText = priceElement.ownText();
+
+                // Use regex to extract only the numeric part of the price (e.g., "600.00")
+                String numericPrice = priceText.replaceAll("[^\\d.]", "").trim();
+
+                try {
+                    // Parse to double and add to the list
+                    if (!numericPrice.isEmpty()) {
+                        prices.add(Double.parseDouble(numericPrice));
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Skipping invalid price: " + priceText);
+                }
+            }
+
+            // Calculate the average
+            double sum = prices.stream().mapToDouble(Double::doubleValue).sum();
+            return prices.isEmpty() ? 500 : Math.ceil(sum / prices.size());
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error fetching price of breed: " + breed);
         }
     }
 }
