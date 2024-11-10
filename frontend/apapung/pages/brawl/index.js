@@ -11,14 +11,15 @@ export default function Brawl() {
   const [pokemonData, setPokemonData] = useState(null);
   const [dogData, setDogData] = useState(null);
   const [isBrawling, setIsBrawling] = useState(false);
+  const [actualDogName, setActualDogName] = useState("");
 
   // Handle pokemon card submission Yaqi work here
   const handlePokemonSubmit = async (input) => {
     console.log("Called handlePokemonSubmit");
     try {
       console.log("API ACCESS");
-      // const response = await fetch(`http://localhost:8080/pokemon/${input}/stats`);
-      // const data = await response.json();
+      const response = await fetch(`http://localhost:8080/pokemon/${input}/stats`);
+      const data = await response.json();
 
       if (response.status == 404) {
         setPokemonData({
@@ -30,14 +31,14 @@ export default function Brawl() {
       }
 
       // for debug purposes
-       const data = {
-         Types: ["electric"],
-         "Sprite url":
-           "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/404.png",
-         "Total base stats": 363,
-         "Dex number": 404,
-         Name: "luxio",
-       };
+      //  const data = {
+      //    Types: ["electric"],
+      //    "Sprite url":
+      //      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/404.png",
+      //    "Total base stats": 363,
+      //    "Dex number": 404,
+      //    Name: "luxio",
+      //  };
       //Extract fields for Card component
       const { Name: name, "Sprite url": image, ...parameters } = data;
 
@@ -55,31 +56,43 @@ export default function Brawl() {
   // Handle dog card submission
   const handleDogSubmit = async (input) => {
     console.log("Called handleDogSubmit");
-
+    setActualDogName(input);
     try {
-      console.log("API ACCESS");
+      console.log("API ACCESS DOGS");
+
+      const response = await fetch(`http://localhost:8080/breed-info/${input}/clean`);
+      const data = await response.json();
+
+      const { name, images, ...parameters } = data;
+
+      // Choose a random image from the images array
+      const randomImage =
+        images && images.length > 0 ? images[Math.floor(Math.random() * images.length)] : "";
+
       setDogData({
-        image: "",
-        name: "Pokemon",
-        parameters: JSON.stringify(
-          { Types: ["fire", "flying"], "Total base stats": 534, "Dex number": 6 },
-          null,
-          2
-        ),
+        name,
+        image: randomImage,
+        parameters: JSON.stringify(parameters, null, 2),
       });
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error fetching Dog data:", error);
+    }
   };
 
   // Handle VS button click
   const handleVSClick = () => {
     if (pokemonData && dogData) {
-      setIsBrawling(true); // Start the brawl animation
+      setIsBrawling(true);
       setTimeout(() => {
         // After animation completes (simulate with a timeout), navigate to /or
         router.push({
           pathname: "/or",
+          query: {
+            pokemon: pokemonData.name,
+            dog: actualDogName,
+          },
         });
-      }, 2000); // Adjust this time based on the animation duration
+      }, 2000);
     } else {
       alert("Please select both a Pokemon and a Dog!");
     }
