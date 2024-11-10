@@ -104,14 +104,16 @@ public class PokeService {
             Map<String, Object> sprites = (Map<String, Object>) responseMap.get("sprites");
             String spriteUrl = (String) sprites.get("front_default");
 
+            
+
             // "generation-v": {
             // "black-white": {
             // "animated": { "front_default":
             // "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/23.gif",
-
+            String name = (String) responseMap.get("name");
             int pokedexNumber = (int) responseMap.get("id");
 
-            resultMap.put("Name", pokemon);
+            resultMap.put("Name", name);
             resultMap.put("Dex number", pokedexNumber);
             resultMap.put("Types", typesList);
             resultMap.put("Total base stats", totalBaseStat);
