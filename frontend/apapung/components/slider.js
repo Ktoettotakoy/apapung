@@ -8,12 +8,12 @@ export default function Slider() {
 
   // Product data
   const products = [
-    { id: 1, name: "Product 1", image: "/Picacku.gif", parameters: "Test" },
-    { id: 2, name: "Product 2", image: "/Picacku.gif", parameters: "Test" },
-    { id: 3, name: "Product 3", image: "/Picacku.gif", parameters: "Test" },
-    { id: 4, name: "Product 4", image: "/Picacku.gif", parameters: "Test" },
-    { id: 5, name: "Product 5", image: "/Picacku.gif", parameters: "Test" },
-    { id: 6, name: "Product 6", image: "/Picacku.gif", parameters: "Test" },
+    { id: 1, name: "Product 1", image: "/poketrainer.gif", price:"10", parameters: "Test", link:"" },
+    { id: 2, name: "Product 2", image: "/Picacku.gif", price:"10", parameters: "Test", link:"" },
+    { id: 3, name: "Product 3", image: "/Picacku.gif", price:"10", parameters: "Test", link:"" },
+    { id: 4, name: "Product 4", image: "/Picacku.gif", price:"10", parameters: "Test", link:"" },
+    { id: 5, name: "Product 5", image: "/Picacku.gif", price:"10", parameters: "Test", link:"" },
+    { id: 6, name: "Product 6", image: "/Picacku.gif", price:"10", parameters: "Test", link:"" },
   ];
 
   // Calculate indices for the 3 visible products
@@ -65,12 +65,19 @@ export default function Slider() {
                 }}
               >
               <div className={`${styles.productCard} ${styles[product.position]}`}>
-                <div className={styles.imageContainer}>
-                  <img src={product.image} alt={product.name} className={styles.productImage} />
+                <div className={styles.productContent}>
+                  <div className={styles.imageContainer}>
+                    <img src={product.image} alt={product.name} className={styles.productImage} />
+                  </div>
+                  <div className={styles.textContainer}>
+                    <h3 className={styles.productName}>{product.name}</h3>
+                    <p className={styles.productPrice}>Price: ${product.price}</p>
+                    <p className={styles.parameters}>{product.parameters}</p>
+                    <a href={product.link} className={styles.productLink}>View More</a>
+                  </div>
                 </div>
-                <h3 className={styles.productName}>{product.name}</h3>
-                <p className={styles.parameters}>{product.parameters}</p>
               </div>
+
 
               </CSSTransition>
             ))}

@@ -25,10 +25,13 @@
   left: 50%;
   transform-origin: center;
   transition: transform 0.5s ease, opacity 0.5s ease;
-  border: 5px solid sienna;
+  border: 10px solid sienna;
   border-radius: 10px;
   overflow: hidden;
   background-color: #fff;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
 }
 
 /* Positions */
@@ -94,43 +97,81 @@
   right: 10px;
 }
 
-/* Image Container */
-.imageContainer {
+/* Content Layout */
+.productContent {
+  display: flex;
+  flex-direction: row;
   width: 100%;
   height: 100%;
+  background-color: rgb(255, 255, 255);
+}
+
+/* Image Container */
+.imageContainer {
+  width: 50%; /* Adjust the width as needed */
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Product Image */
 .productImage {
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: cover;
+  border: 10px solid rgb(122, 63, 12);
+  border-radius: 8px;
+}
+
+/* Text Container */
+.textContainer {
+  width: 40%; /* Adjust the width as needed */
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 /* Product Name */
 .productName {
-  position: absolute;
-  bottom: 20%;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  font-size: 1.5rem;
+  font-family: 'Press Start 2P', sans-serif;
+  font-weight: bold;
+  font-size: 2rem;
+  margin-bottom: 10px;
   color: #333;
-  background-color: rgba(255, 255, 255, 0.7);
-  padding: 10px 0;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Parameters Text */
 .parameters {
-  position: absolute;
-  bottom: 11%;
-  left: 0;
-  width: 100%;
-  text-align: center;
+  font-family: 'Press Start 2P', sans-serif;
   font-size: 1.5rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+/* Product Link */
+.productLink {
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 1.5rem;
+  color: #130d01e3;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: rgba(255, 68, 0, 0.639);
+}
+
+/* Product Price */
+.productPrice {
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
   color: #333;
-  background-color: rgba(255, 255, 255, 0.7);
-  padding: 10px 0;
 }
 
 
