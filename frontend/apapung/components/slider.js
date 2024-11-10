@@ -45,6 +45,10 @@ export default function Slider() {
     <>
       <Head>
         <title>Pixel Carousel</title>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+          rel="stylesheet"
+        />
       </Head>
       <div className={styles.carouselContainer}>
         <div className={styles.carousel}>
@@ -60,14 +64,14 @@ export default function Slider() {
                   exitActive: styles.productExitActive,
                 }}
               >
-                <div
-                  className={`${styles.productCard} ${styles[product.position]}`}
-                >
-                  <div className={styles.imageContainer}>
-                    <img src={product.image} alt={product.name} className={styles.productImage} />
-                  </div>
-                  <h3 className={styles.productName}>{product.name}</h3>
+              <div className={`${styles.productCard} ${styles[product.position]}`}>
+                <div className={styles.imageContainer}>
+                  <img src={product.image} alt={product.name} className={styles.productImage} />
                 </div>
+                <h3 className={styles.productName}>{product.name}</h3>
+                <p className={styles.parameters}>{product.parameters}</p>
+              </div>
+
               </CSSTransition>
             ))}
           </TransitionGroup>
