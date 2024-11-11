@@ -26,7 +26,7 @@ export async function getServerSideProps(context) {
 
     const totalMoneyNeeded = data.dogsNeeded * moneyPerDog;
     // temporary measure
-    const categoryList = ["videogames", "software", "electronics", "kitchen", "kids"];
+    const categoryList = ["videogames", "software", "kitchen", "kids", "diy", "grocery", "lighting", "music", "beauty", "baby", "gift-cards", "pet-supplies"];
 
     const fetchAmazonProducts = await fetch(
       `http://localhost:8080/amazon/bestselling/${
