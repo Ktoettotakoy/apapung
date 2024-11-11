@@ -26,7 +26,7 @@
     background-size:cover;
     background-position: center;
     background-attachment: fixed;
-    width: 40%;               /* Image takes up 45% of the card's width */
+    width: 35%;               /* Image takes up 45% of the card's width */
     height: auto;             /* Fill the card's height */
     object-fit: fill;        /* Ensures the image scales without distortion */
     border-top-left-radius: 10px;
@@ -46,7 +46,7 @@
   
   /* Card name styling */
   .cardName {
-    font-size: 1.2em;
+    font-size: 1.1em;
     overflow: visible;
     font-family: 'Press Start 2P', bold;
     color: #fff;              /* White text for contrast */
@@ -95,8 +95,5 @@
     }
     .cardImage, .infoContainer {
         width: 100%;
-    }
-    .cardName {
-        font-size: 1.2em; /* Adjust font size for smaller screens */
     }
 }
