@@ -6,7 +6,6 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 export default function Slider({ products, dogsNeeded }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  console.log(products);
   // Calculate indices for the 3 visible products
   const getVisibleProducts = () => {
     const total = products.length;
