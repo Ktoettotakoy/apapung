@@ -1,5 +1,6 @@
 package ie.tcd.scss.apapung.Controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,5 +21,11 @@ public class AmazonController {
 
         Map<String, Object> productDetails = amazonService.getProductDetails(asin);
         return productDetails;
+    }
+
+    @GetMapping("amazon/bestselling/{category}")
+    public List<Map<String, Object>> getBestSellingProducts(
+            @PathVariable String category) {
+        return amazonService.getBestSellingProducts(category);
     }
 }

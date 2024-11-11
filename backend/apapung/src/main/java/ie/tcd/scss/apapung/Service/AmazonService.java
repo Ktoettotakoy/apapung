@@ -1,6 +1,9 @@
 package ie.tcd.scss.apapung.Service;
 
 import io.github.cdimascio.dotenv.Dotenv;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.http.HttpHeaders;
@@ -9,6 +12,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -18,6 +22,8 @@ public class AmazonService {
     private RestTemplate restTemplate;
 
     private final String apiKey;
+
+    private static final Logger logger = LoggerFactory.getLogger(ComparisonService.class);
 
     public AmazonService() {
         Dotenv dotenv = Dotenv.load();  // Load .env file
@@ -69,6 +75,38 @@ public class AmazonService {
             }
         } else {
             throw new RuntimeException("Unable to fetch product data for ASIN: " + asin);
+        }
+    }
+
+
+    public List<Map<String, Object>> getBestSellingProducts(String category) {
+        String url = String.format("https://real-time-amazon-data.p.sulu.sh/v2/best-sellers?country=gb&category=%s&page=1", category);
+    
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + apiKey);
+    
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        try {
+            ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+    
+            // Extract the "data" object and then get the "products" list within it
+            Map<String, Object> data = (Map<String, Object>) response.getBody().get("data");
+            List<Map<String, Object>> bestSellers = (List<Map<String, Object>>) data.get("best_sellers");
+    
+            List<Map<String, Object>> topProducts = bestSellers.subList(0, Math.min(bestSellers.size(), 6)).stream()
+            .map(product -> Map.of(
+                "product_title", product.get("product_title"),
+                "product_price", product.get("product_price"),
+                "product_photo", product.get("product_photo"),
+                "product_url", product.get("product_url")
+            ))
+            .toList();
+
+            return topProducts;
+    
+        } catch (Exception e) {
+            logger.error("Failed to fetch best-selling products for category: " + category, e);
+            throw new RuntimeException("Error fetching best-selling products.", e);
         }
     }
 }
