@@ -104,48 +104,62 @@ public class AmazonService {
             // Fetch dog price based on breed
             double dogPrice = dogService.getDogPrice(breed);
     
-            // Calculate the price range (±30% of dogPrice)
-            double minPrice = dogPrice * 0.7; // 30% lower than dogPrice
-            double maxPrice = dogPrice * 1.3; // 30% higher than dogPrice
+            // Convert dog price to EUR
+            double dogPriceEur = dogPrice * 1.2;
     
-            // Filter products based on the price range
+            // Calculate the price range in EUR (±20% of dogPrice in EUR)
+            double minPrice = dogPriceEur * 0.8; // 20% lower than dogPriceEur
+            double maxPrice = dogPriceEur * 1.2; // 20% higher than dogPriceEur
+    
+            // Filter products based on the price range in EUR
             List<Map<String, Object>> filteredProducts = bestSellers.stream()
                     .filter(product -> {
                         String priceStr = (String) product.get("product_price");
-                        // Clean the price string to get the numeric value
-                        double productPrice = parsePrice(priceStr);
-                        return productPrice >= minPrice && productPrice <= maxPrice;
+                        // Clean the price string to get the numeric value in GBP and then convert to EUR
+                        double productPriceGbp = parsePrice(priceStr);
+                        double productPriceEur = productPriceGbp * 1.2; // Convert GBP to EUR
+                        return productPriceEur >= minPrice && productPriceEur <= maxPrice;
                     })
-                    .map(product -> Map.of(
-                            "product_title", truncateTitle((String) product.get("product_title")), // Truncate title
-                            "product_price", product.get("product_price"),
-                            "product_photo", product.get("product_photo"),
-                            "product_url", product.get("product_url"),
-                            "quantity_can_buy", 1
-                    ))
-                    .limit(6) // Get only the top 6 products within the price range
+                    .map(product -> {
+                        String priceStr = (String) product.get("product_price");
+                        double productPriceGbp = parsePrice(priceStr);
+                        double productPriceEur = productPriceGbp * 1.2; // Convert GBP to EUR
+    
+                        return Map.of(
+                                "product_title", truncateTitle((String) product.get("product_title")), // Truncate title
+                                "product_price_gbp", "£" + String.format("%.2f", productPriceGbp), // GBP Price
+                                "product_price_eur", "€" + String.format("%.2f", productPriceEur), // EUR Price
+                                "product_photo", product.get("product_photo"),
+                                "product_url", product.get("product_url"),
+                                "quantity_can_buy", 1 // Set quantity to 1 for each product
+                        );
+                    })
+                    .limit(6) // Get only the top 6 products within the price range in EUR
                     .collect(Collectors.toList());
     
-            // If filtered products are fewer than 6, fill the remaining spots with products outside the price range
+            // If filtered products are fewer than 6, fill the remaining spots with random out-of-range products
             if (filteredProducts.size() < 6) {
-                // Find out-of-range products and calculate how many of them can be bought with dogPrice
+                // Find out-of-range products (based on EUR price) and calculate how many of them can be bought with dogPrice
                 List<Map<String, Object>> outOfRangeProducts = bestSellers.stream()
                         .filter(product -> {
                             String priceStr = (String) product.get("product_price");
-                            double productPrice = parsePrice(priceStr);
-                            return productPrice < minPrice || productPrice > maxPrice; // Out of the price range
+                            double productPriceGbp = parsePrice(priceStr);
+                            double productPriceEur = productPriceGbp * 1.2; // Convert GBP to EUR
+                            return productPriceEur < minPrice || productPriceEur > maxPrice; // Out of the EUR price range
                         })
                         .map(product -> {
                             String priceStr = (String) product.get("product_price");
-                            double productPrice = parsePrice(priceStr);
+                            double productPriceGbp = parsePrice(priceStr);
+                            double productPriceEur = productPriceGbp * 1.2; // Convert GBP to EUR
     
-                            // Calculate how many of this product can be bought with dogPrice
-                            int quantity = (int) (dogPrice / productPrice);
+                            // Calculate how many of this product can be bought with dogPrice (in GBP)
+                            int quantity = (int) (dogPrice / productPriceGbp);
     
                             // Add the product and quantity information
                             return Map.of(
                                     "product_title", truncateTitle((String) product.get("product_title")),
-                                    "product_price", product.get("product_price"),
+                                    "product_price_gbp", "£" + String.format("%.2f", productPriceGbp),
+                                    "product_price_eur", "€" + String.format("%.2f", productPriceEur),
                                     "product_photo", product.get("product_photo"),
                                     "product_url", product.get("product_url"),
                                     "quantity_can_buy", quantity // Add calculated quantity
@@ -153,12 +167,14 @@ public class AmazonService {
                         })
                         .collect(Collectors.toList());
     
-                // Add out-of-range products to the filtered products until we have 6 items
+                // Shuffle out-of-range products and pick the required number
                 Collections.shuffle(outOfRangeProducts);
                 int remainingSpots = 6 - filteredProducts.size();
                 filteredProducts.addAll(outOfRangeProducts.subList(0, Math.min(remainingSpots, outOfRangeProducts.size())));
             }
+    
             return filteredProducts;
+    
         } catch (Exception e) {
             logger.error("Failed to fetch best-selling products for category: " + category, e);
             throw new RuntimeException("Error fetching best-selling products.", e);
@@ -178,5 +194,5 @@ public class AmazonService {
     // Helper method to truncate the title to 50 characters
     private String truncateTitle(String title) {
         return title.length() > 50 ? title.substring(0, 50) + "..." : title;
-    }    
+    }
 }
