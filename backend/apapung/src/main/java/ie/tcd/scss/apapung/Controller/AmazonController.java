@@ -23,9 +23,10 @@ public class AmazonController {
         return productDetails;
     }
 
-    @GetMapping("amazon/bestselling/{category}")
+    @GetMapping("amazon/bestselling/{category}/{breed}")
     public List<Map<String, Object>> getBestSellingProducts(
-            @PathVariable String category) {
-        return amazonService.getBestSellingProducts(category);
+            @PathVariable String category,
+            @PathVariable String breed) {
+        return amazonService.getBestSellingProducts(category, breed);
     }
 }
