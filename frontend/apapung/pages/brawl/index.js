@@ -13,7 +13,6 @@ export default function Brawl() {
   const [isBrawling, setIsBrawling] = useState(false);
   const [actualDogName, setActualDogName] = useState("");
 
-  // Handle pokemon card submission Yaqi work here
   const handlePokemonSubmit = async (input) => {
     console.log("Called handlePokemonSubmit");
     try {

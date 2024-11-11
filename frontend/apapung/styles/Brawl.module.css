@@ -53,7 +53,7 @@
   z-index: 4; /* Ensure the card is above other content */
   background-color: white;
   border-radius: 20px; /* Smooth, rounded corners */
-  overflow: hidden; /* Hide anything that exceeds the rounded borders */
+  overflow: hidden; 
   width: 40vw;
   height: auto;
   border: 10px solid rgb(33, 12, 12);

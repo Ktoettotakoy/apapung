@@ -1,21 +1,12 @@
 import { useState } from "react";
 import Head from "next/head";
 import styles from "../styles/Slider.module.css";
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
-export default function Slider() {
+export default function Slider({ products, dogsNeeded }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Product data
-  const products = [
-    { id: 1, name: "Product 1", image: "/poketrainer.gif", price:"10", parameters: "Test", link:"" },
-    { id: 2, name: "Product 2", image: "/Picacku.gif", price:"10", parameters: "Test", link:"" },
-    { id: 3, name: "Product 3", image: "/Picacku.gif", price:"10", parameters: "Test", link:"" },
-    { id: 4, name: "Product 4", image: "/Picacku.gif", price:"10", parameters: "Test", link:"" },
-    { id: 5, name: "Product 5", image: "/Picacku.gif", price:"10", parameters: "Test", link:"" },
-    { id: 6, name: "Product 6", image: "/Picacku.gif", price:"10", parameters: "Test", link:"" },
-  ];
-
+  console.log(products);
   // Calculate indices for the 3 visible products
   const getVisibleProducts = () => {
     const total = products.length;
@@ -25,9 +16,9 @@ export default function Slider() {
 
     // Assign positions to products
     return [
-      { ...products[leftIndex], position: 'left' },
-      { ...products[middleIndex], position: 'center' },
-      { ...products[rightIndex], position: 'right' },
+      { ...products[leftIndex], position: "left" },
+      { ...products[middleIndex], position: "center" },
+      { ...products[rightIndex], position: "right" },
     ];
   };
 
@@ -45,17 +36,13 @@ export default function Slider() {
     <>
       <Head>
         <title>Pixel Carousel</title>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
-          rel="stylesheet"
-        />
       </Head>
       <div className={styles.carouselContainer}>
         <div className={styles.carousel}>
           <TransitionGroup component={null}>
-            {visibleProducts.map((product) => (
+            {visibleProducts.map((product, index) => (
               <CSSTransition
-                key={product.id}
+                key={index}
                 timeout={500}
                 classNames={{
                   enter: styles.productEnter,
@@ -64,21 +51,27 @@ export default function Slider() {
                   exitActive: styles.productExitActive,
                 }}
               >
-              <div className={`${styles.productCard} ${styles[product.position]}`}>
-                <div className={styles.productContent}>
-                  <div className={styles.imageContainer}>
-                    <img src={product.image} alt={product.name} className={styles.productImage} />
-                  </div>
-                  <div className={styles.textContainer}>
-                    <h3 className={styles.productName}>{product.name}</h3>
-                    <p className={styles.productPrice}>Price: ${product.price}</p>
-                    <p className={styles.parameters}>{product.parameters}</p>
-                    <a href={product.link} className={styles.productLink}>View More</a>
+                <div className={`${styles.productCard} ${styles[product.position]}`}>
+                  <div className={styles.productContent}>
+                    <div className={styles.imageContainer}>
+                      <img
+                        src={product.product_photo}
+                        alt={product.product_title}
+                        className={styles.productImage}
+                      />
+                    </div>
+                    <div className={styles.textContainer}>
+                      <h3 className={styles.productName}>{product.product_title}</h3>
+                      <p className={styles.productPrice}>Price: {product.product_price_eur}</p>
+                      <p className={styles.parameters}>
+                        Quantity you can buy: {product.quantity_can_buy * dogsNeeded}
+                      </p>
+                      <a href={product.product_url} className={styles.productLink}>
+                        Link to the product
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
-
-
               </CSSTransition>
             ))}
           </TransitionGroup>

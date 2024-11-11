@@ -2,9 +2,9 @@
 .card {
     display: flex;
     flex-direction: row;
-    height: 30vh;               /* Let the card grow in height as needed */
-    width: auto;                /* Ensure card takes full available width */
-    /* max-width: 450px;           Set max width for better control */
+    height: 30vh;            
+    width: auto;          
+    min-width: 450px;           
     border-radius: 0px;        /* Rounded corners for a smooth look */
     overflow: hidden;           /* Prevent content overflow */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for a lift effect */
@@ -42,9 +42,8 @@
   
   /* Card name styling */
   .cardName {
-    font-size: auto;
-    font-family: 'Press Start 2P', sans-serif;
-    font-weight: bold;        /* Bold for better emphasis */
+    font-size: 2rem;
+    font-family: 'Press Start 2P', bold;
     color: #fff;              /* White text for contrast */
     text-align: left;
     margin-top: 0px;
@@ -54,15 +53,16 @@
   
   /* Parameter container styling */
   .parameterContainer {
+    word-wrap: normal;
     display: flex;
     flex-direction: column;
-    gap: 8px;                 /* Adds some space between each parameter */
+    gap: 32px;                 /* Adds some space between each parameter */
   }
   
   /* Individual parameter styling */
   .cardParameter {
-    font-size: auto;          /* Slightly smaller size for the parameters */
-    font-family: sans-serif;
+    font-size: 1.2rem;          /* Slightly smaller size for the parameters */
+    font-family: 'Press Start 2P', light;
     color: #fff;              /* White text for contrast */
     margin: 0;
     padding: 4px 0;           /* Add vertical padding */

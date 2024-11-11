@@ -15,13 +15,29 @@ export async function getServerSideProps(context) {
 
   try {
     // Fetch comparison data
-    const response = await fetch(`http://localhost:8080/compare/${pokemon}/${dog}`);
-    const data = await response.json();
+    const fetchComparison = fetch(`http://localhost:8080/compare/${pokemon}/${dog}`);
+    const fetchPrice = fetch(`http://localhost:8080/price/${dog}`);
 
-    const moneyPerDogResponse = await fetch(`http://localhost:8080/price/${data.dogBreed}`);
-    const moneyPerDog = await moneyPerDogResponse.json();
+    // Use Promise.all to wait for both fetches concurrently
+    const [compareResponse, priceResponse] = await Promise.all([fetchComparison, fetchPrice]);
 
-    // Define a function to correctly pluralize dog breed names
+    const data = await compareResponse.json();
+    const moneyPerDog = await priceResponse.json();
+
+    const totalMoneyNeeded = data.dogsNeeded * moneyPerDog;
+    // temporary measure
+    const categoryList = ["videogames", "software", "electronics", "computers"];
+
+    const fetchAmazonProducts = await fetch(
+      `http://localhost:8080/amazon/bestselling/${
+        categoryList[Math.floor(Math.random() * categoryList.length)]
+      }/${dog}`
+    );
+
+    const listOfProducts = await fetchAmazonProducts.json();
+    // TODO
+
+    //Function to correctly pluralize dog breed names
     const pluralizeBreed = (name, count) => {
       if (count === 1) return name;
       if (name.endsWith("y")) {
@@ -36,15 +52,16 @@ export async function getServerSideProps(context) {
       `You'll need a whole team of ${data.dogBreed}s to stand a chance!`,
       `To be precise...`,
       `You need ${data.dogsNeeded} ${pluralizeBreed(data.dogBreed, data.dogsNeeded)}!!!`,
-      `They worth around ${data.dogsNeeded * moneyPerDog} Euros!!!`,
+      `They worth around ${totalMoneyNeeded} Euros!!!`,
       `For that amount of money, you could buy a present to your friend like...`,
     ];
 
     // Return the data as props to the page
     return {
       props: {
-        moneyPerDog,
         messages,
+        products: listOfProducts,
+        dogsNeeded: data.dogsNeeded,
       },
     };
   } catch (error) {
@@ -57,7 +74,7 @@ export async function getServerSideProps(context) {
   }
 }
 
-export default function OrPage({ moneyPerDog, messages, error }) {
+export default function OrPage({ messages, products, dogsNeeded, error }) {
   const router = useRouter();
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [showSecondDiv, setShowSecondDiv] = useState(false);
@@ -108,7 +125,7 @@ export default function OrPage({ moneyPerDog, messages, error }) {
           showSecondDiv ? styles.show : styles.hidden
         }`}
       >
-        <Slider />
+        <Slider products={products} dogsNeeded={dogsNeeded} />
         <button className={styles.restartButton} onClick={() => router.push("/")}>
           Restart
         </button>
