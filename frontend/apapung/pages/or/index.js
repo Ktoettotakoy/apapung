@@ -53,7 +53,7 @@ export async function getServerSideProps(context) {
       `To be precise...`,
       `You need ${data.dogsNeeded} ${pluralizeBreed(data.dogBreed, data.dogsNeeded)}!!!`,
       `They worth around ${totalMoneyNeeded} Euros!!!`,
-      `For that amount of money, you could buy a present to your friend like...`,
+      `Christmas is around the corner, you can use that money to buy... `,
     ];
 
     // Return the data as props to the page
