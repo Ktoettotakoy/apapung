@@ -127,7 +127,6 @@ public class AmazonService {
     
                         return Map.of(
                                 "product_title", truncateTitle((String) product.get("product_title")), // Truncate title
-                                "product_price_gbp", "£" + String.format("%.2f", productPriceGbp), // GBP Price
                                 "product_price_eur", "€" + String.format("%.2f", productPriceEur), // EUR Price
                                 "product_photo", product.get("product_photo"),
                                 "product_url", product.get("product_url"),
@@ -158,7 +157,6 @@ public class AmazonService {
                             // Add the product and quantity information
                             return Map.of(
                                     "product_title", truncateTitle((String) product.get("product_title")),
-                                    "product_price_gbp", "£" + String.format("%.2f", productPriceGbp),
                                     "product_price_eur", "€" + String.format("%.2f", productPriceEur),
                                     "product_photo", product.get("product_photo"),
                                     "product_url", product.get("product_url"),
