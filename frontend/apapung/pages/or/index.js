@@ -30,6 +30,9 @@ export default function OrPage() {
 
       const { pokemon, dogsNeeded, dogBreed } = data;
 
+      const moneyPerDogResponse = await fetch(`http://localhost:8080/price/${dogBreed}`);
+      const moneyPerDog = await moneyPerDogResponse.json();
+
       // Define a function to correctly pluralize dog breed names
       const pluralizeBreed = (name, count) => {
         if (count === 1) return name;
@@ -45,7 +48,7 @@ export default function OrPage() {
         `You'll need a whole team of ${dogBreed}s to stand a chance!`,
         `To be precise...`,
         `You need ${dogsNeeded} ${pluralizeBreed(dogBreed, dogsNeeded)}!!!`,
-        `They worth around ${dogsNeeded * (Math.random() * (550 - 250) + 250).toFixed()} Euros!!!`,
+        `They worth around ${dogsNeeded * moneyPerDog} Euros!!!`,
         `For that amount of money, you could buy...`,
       ]);
     } catch (error) {
