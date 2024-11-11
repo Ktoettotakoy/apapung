@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -44,7 +43,7 @@ public class DogService {
         List<Map<String, Object>> breeds = response.getBody();
 
         if (breeds != null && !breeds.isEmpty()) {
-            Map<String, Object> breedInfo = breeds.get(0);  // Get the first result
+            Map<String, Object> breedInfo = breeds.get(0); // Get the first result
 
             // Fetch images using the breed ID from the response
             int breedId = (int) breedInfo.get("id");
@@ -78,8 +77,8 @@ public class DogService {
         List<Map<String, Object>> imagesData = response.getBody();
 
         return imagesData.stream()
-                         .map(imageData -> (String) imageData.get("url"))
-                         .toList();
+                .map(imageData -> (String) imageData.get("url"))
+                .toList();
     }
 
     public double calculateStrengthScore(Map<String, Object> breedInfo) {
@@ -106,7 +105,8 @@ public class DogService {
         double rawStrengthScore = weightScore + heightScore;
 
         // Now, scale it down to the range 0.01 to 1
-        // Assuming the max possible raw strength score is 70 (40 + 30 from weight and height max)
+        // Assuming the max possible raw strength score is 70 (40 + 30 from weight and
+        // height max)
         double normalizedStrength = Math.min(rawStrengthScore / 70.0, 1.0); // Scale to [0, 1]
         return Math.max(normalizedStrength * 0.99 + 0.01, 0.01); // Scale to [0.01, 1]
     }
@@ -123,9 +123,8 @@ public class DogService {
         }
     }
 
-
     // Web scrape to find the average price of the breed
-    public double getDogPrice(String breed) {
+    public int getDogPrice(String breed) {
         try {
             // URL to scrape
             String url = "https://dogsforsaleireland.ie/search-results/?ad_title=" + breed;
@@ -155,7 +154,7 @@ public class DogService {
 
             // Calculate the average
             double sum = prices.stream().mapToDouble(Double::doubleValue).sum();
-            return prices.isEmpty() ? 500 : Math.ceil(sum / prices.size());
+            return prices.isEmpty() ? (int) (Math.random() * (550 - 250) + 250) : (int) Math.ceil(sum / prices.size());
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Error fetching price of breed: " + breed);
