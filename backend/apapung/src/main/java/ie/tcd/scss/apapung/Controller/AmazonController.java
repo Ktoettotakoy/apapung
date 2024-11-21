@@ -4,13 +4,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ie.tcd.scss.apapung.Service.AmazonService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class AmazonController {
     @Autowired
     private AmazonService amazonService;
@@ -23,10 +26,10 @@ public class AmazonController {
         return productDetails;
     }
 
-    @GetMapping("amazon/bestselling/{category}/{breed}")
+    @GetMapping("amazon/bestselling/{category}")
     public List<Map<String, Object>> getBestSellingProducts(
             @PathVariable String category,
-            @PathVariable String breed) {
-        return amazonService.getBestSellingProducts(category, breed);
+            @RequestParam double dogPrice) {
+        return amazonService.getBestSellingProducts(category, dogPrice);
     }
 }

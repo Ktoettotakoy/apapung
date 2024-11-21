@@ -23,16 +23,13 @@ public class AmazonService {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Autowired
-    private DogService dogService;
-
     private final String apiKey;
 
     private static final Logger logger = LoggerFactory.getLogger(ComparisonService.class);
 
     public AmazonService() {
         Dotenv dotenv = Dotenv.load(); // Load .env file
-        this.apiKey = dotenv.get("AMAZON_TOKEN"); // Get the API key from the .env file
+        this.apiKey = dotenv.get("SULU_TOKEN"); // Get the API key from the .env file
     }
 
     public Map<String, Object> getProductDetails(String asin) {
@@ -83,7 +80,7 @@ public class AmazonService {
         }
     }
 
-    public List<Map<String, Object>> getBestSellingProducts(String category, String breed) {
+    public List<Map<String, Object>> getBestSellingProducts(String category, double dogPrice) {
         String url = String.format("https://real-time-amazon-data.p.sulu.sh/v2/best-sellers?country=gb&category=%s&page=1", category);
     
         HttpHeaders headers = new HttpHeaders();
@@ -100,9 +97,6 @@ public class AmazonService {
             if (bestSellers == null || bestSellers.isEmpty()) {
                 throw new RuntimeException("No best-selling products found.");
             }
-    
-            // Fetch dog price based on breed
-            double dogPrice = dogService.getDogPrice(breed);
     
             // Convert dog price to EUR
             double dogPriceEur = dogPrice * 1.2;

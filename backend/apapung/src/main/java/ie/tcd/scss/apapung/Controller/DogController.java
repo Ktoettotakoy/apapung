@@ -43,7 +43,7 @@ public class DogController {
     }
 
     @GetMapping("price/{breed}")
-    public int getBreedPrice(@PathVariable String breed) {
+    public double getBreedPrice(@PathVariable String breed) {
         return dogService.getDogPrice(breed);
     }
 }

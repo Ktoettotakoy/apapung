@@ -4,29 +4,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
+
+import io.github.cdimascio.dotenv.Dotenv;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import javax.naming.directory.InvalidAttributesException;
 
 @Service
 public class DogService {
-
     @Autowired
     private RestTemplate restTemplate;
 
-    @Value("${external.dog.api.key}")
-    private String apiKey;
+    private String groqApiKey;
+
+    private String dogAPIToken;
+
+    public DogService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+
+        // Load .env file and get the OpenAI API key
+        Dotenv dotenv = Dotenv.load();
+        this.dogAPIToken = dotenv.get("DOG_API_TOKEN");
+        this.groqApiKey = dotenv.get("OPENAI_TOKEN");
+    }
 
     public Map<String, Object> getBreedInfo(String breedQuery) {
         // Construct the URL for searching the breed and sub-breed
@@ -34,7 +44,7 @@ public class DogService {
 
         // Set up headers
         HttpHeaders headers = new HttpHeaders();
-        headers.set("x-api-key", apiKey);
+        headers.set("x-api-key", dogAPIToken);
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
@@ -61,7 +71,7 @@ public class DogService {
 
             return breedInfo;
         } else {
-            throw new RuntimeException("No data found for breed: " + breedQuery);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No data found for breed: " + breedQuery);
         }
     }
 
@@ -69,7 +79,7 @@ public class DogService {
         String url = "https://api.thedogapi.com/v1/images/search?breed_id=" + breedId + "&limit=5"; // Limit to 5 images
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("x-api-key", apiKey);
+        headers.set("x-api-key", dogAPIToken);
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
@@ -123,41 +133,59 @@ public class DogService {
         }
     }
 
-    // Web scrape to find the average price of the breed
-    public int getDogPrice(String breed) {
+    // prompt llama3-8b for the price of a dog breed
+    public double getDogPrice(String breed) {
+        String gptPrompt = String.format("What is the average price of a %s in Euros." +
+                                        "Give me a single price, do not display any text.", breed);
+    
+        // Create the request payload
+        Map<String, Object> payload = Map.of(
+                "model", "llama3-8b-8192", // Specify the LLaMA model or other GPT-based model
+                "messages", List.of(
+                        Map.of("role", "user", "content", gptPrompt)));
+    
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + groqApiKey);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+    
+        HttpEntity<Map<String, Object>> request = new HttpEntity<>(payload, headers);
+    
         try {
-            // URL to scrape
-            String url = "https://dogsforsaleireland.ie/search-results/?ad_title=" + breed;
-
-            Document document = Jsoup.connect(url).get();
-
-            Elements priceElements = document.select("div.price");
-
-            List<Double> prices = new ArrayList<>();
-
-            for (Element priceElement : priceElements) {
-                // Extract the price text
-                String priceText = priceElement.ownText();
-
-                // Use regex to extract only the numeric part of the price (e.g., "600.00")
-                String numericPrice = priceText.replaceAll("[^\\d.]", "").trim();
-
-                try {
-                    // Parse to double and add to the list
-                    if (!numericPrice.isEmpty()) {
-                        prices.add(Double.parseDouble(numericPrice));
+            ResponseEntity<Map> response = restTemplate.postForEntity(
+                    "https://api.groq.com/openai/v1/chat/completions", request, Map.class);
+    
+            // Check if the response body contains the expected fields
+            if (response.getBody() != null && response.getBody().containsKey("choices")) {
+                List<Map> choices = (List<Map>) response.getBody().get("choices");
+                if (!choices.isEmpty()) {
+                    Map<String, Object> firstChoice = choices.get(0); // Access the first choice
+                    Map<String, Object> message = (Map<String, Object>) firstChoice.get("message");
+    
+                    // Ensure content exists and is valid
+                    if (message != null && message.containsKey("content")) {
+                        String content = (String) message.get("content");
+    
+                        // Attempt to parse the content as a price
+                        String priceText = content.replaceAll("[^\\d.,]", ""); // Allow digits, commas, and periods
+                        priceText = priceText.replaceAll(",", ""); // Remove commas
+    
+                        // Ensure only one decimal point exists
+                        int lastIndex = priceText.lastIndexOf('.');
+                        if (lastIndex != -1) {
+                            // Remove all but the last decimal point
+                            priceText = priceText.substring(0, lastIndex).replace(".", "") 
+                                        + priceText.substring(lastIndex);
+                        }
+    
+                        return Double.parseDouble(priceText);
                     }
-                } catch (NumberFormatException e) {
-                    System.out.println("Skipping invalid price: " + priceText);
                 }
             }
-
-            // Calculate the average
-            double sum = prices.stream().mapToDouble(Double::doubleValue).sum();
-            return prices.isEmpty() ? (int) (Math.random() * (550 - 250) + 250) : (int) Math.ceil(sum / prices.size());
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error fetching price of breed: " + breed);
+    
+            throw new RuntimeException("No price data returned from OpenAI API for breed: " + breed);
+    
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to estimate dog price: " + e.getMessage(), e);
         }
-    }
+    }     
 }

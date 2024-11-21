@@ -17,6 +17,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ie.tcd.scss.apapung.Repository.TypesRepository;
+
 import java.time.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +37,9 @@ public class PokeService {
     @Autowired
     public PokeService(RestTemplateBuilder restTemplateBuilder) {
         Dotenv dotenv = Dotenv.configure().load();
-        this.pokeAPIToken = dotenv.get("POKEAPI_TOKEN");
+        this.pokeAPIToken = dotenv.get("SULU_TOKEN");
         if (this.pokeAPIToken == null) {
-            throw new IllegalStateException("POKEAPI_TOKEN is missing from the .env file.");
+            throw new IllegalStateException("SULU_TOKEN is missing from the .env file.");
         }
 
         // debug prints
@@ -99,23 +101,19 @@ public class PokeService {
                     .map(typeMap -> (String) typeMap.get("name"))
                     .collect(Collectors.toList());
 
-            // get sprite if gen 5 sprite exists take it (as gen 5 sprites are better)
-            // otherwise take the gen 9 sprite -- i can do it later to look cool
+            // convert types list to list of urls
+            TypesRepository typeRepo = new TypesRepository();
+            List<String> typesURLList = typeRepo.getTypeUrls(typesList);
+            
             Map<String, Object> sprites = (Map<String, Object>) responseMap.get("sprites");
             String spriteUrl = (String) sprites.get("front_default");
 
-            
-
-            // "generation-v": {
-            // "black-white": {
-            // "animated": { "front_default":
-            // "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/23.gif",
             String name = (String) responseMap.get("name");
             int pokedexNumber = (int) responseMap.get("id");
 
             resultMap.put("Name", name);
             resultMap.put("Dex number", pokedexNumber);
-            resultMap.put("Types", typesList);
+            resultMap.put("Types", typesURLList);
             resultMap.put("Total base stats", totalBaseStat);
             resultMap.put("Sprite url", spriteUrl);
         } catch (JsonProcessingException e) {
