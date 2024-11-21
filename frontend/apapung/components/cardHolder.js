@@ -2,7 +2,6 @@
 import { useState } from "react";
 import TextInput from "./textInput";
 import styles from "../styles/cardHolder.module.css";
-import Card from "./Card";
 
 export default function CardHolder({
   startButtonPlaceholder,

@@ -5,7 +5,7 @@
   height: 100vh;
   width: 100vw;
   z-index: 0;
-  background-image: url('/battleBackground.jpg');
+  background-image: url("/battleBackground.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -13,7 +13,9 @@
 }
 
 /* Ensure containers are stacked with a lower z-index */
-.pokemonContainer, .vsContainer, .dogContainer {
+.pokemonContainer,
+.vsContainer,
+.dogContainer {
   flex: 1;
   display: flex;
   justify-content: center;
@@ -48,17 +50,17 @@
   cursor: pointer;
 }
 
-.pokemonCard, .dogCard {
+.pokemonCard,
+.dogCard {
   position: absolute;
   z-index: 4; /* Ensure the card is above other content */
   background-color: white;
   border-radius: 20px; /* Smooth, rounded corners */
-  overflow: hidden; 
+  overflow: hidden;
   width: 40vw;
   height: auto;
   border: 10px solid rgb(33, 12, 12);
 }
-
 
 .pokemonCard {
   right: 2%;
@@ -76,7 +78,7 @@
   0% {
     transform: translate(0, 0);
   }
-  50%{
+  50% {
     transform: translate(8px, -8px);
   }
   100% {
@@ -88,7 +90,7 @@
   0% {
     transform: translate(0, 0);
   }
-  50%{
+  50% {
     transform: translate(-8px, 8px);
   }
   100% {
@@ -98,29 +100,29 @@
 
 .resetButton {
   position: fixed;
-  bottom: 20px; 
-  right: 20px; 
-  font-family: 'Press Start 2P', sans-serif; 
+  bottom: 20px;
+  right: 20px;
+  font-family: "Press Start 2P", sans-serif;
   font-size: 20px;
   padding: 20px;
-  background-color: #ff6347; 
-  border: 6px solid #333;    
+  background-color: #ff6347;
+  border: 6px solid #333;
   color: #fff;
   width: 28vh;
   text-align: left;
-  border-radius: 12px; 
+  border-radius: 12px;
   cursor: pointer;
-  box-shadow: 8px 8px 0px #333; 
+  box-shadow: 8px 8px 0px #333;
   transition: all 0.2s ease-in-out;
 }
 
 .resetButton:hover {
-  background-color: #ff4500;  
+  background-color: #ff4500;
   box-shadow: 6px 6px 0px #333;
 }
 
 .resetButton:active {
-  transform: translate(2px, 2px); 
+  transform: translate(2px, 2px);
   box-shadow: 4px 4px 0px #333;
 }
 
@@ -153,4 +155,60 @@
   100% {
     transform: translateY(0) rotate(-55deg); /* Landing */
   }
+}
+
+.unselectButtonPokemon {
+  position: fixed;
+  top: calc(50% - 65px);
+  right: 20px;
+  font-family: "Press Start 2P", sans-serif;
+  font-size: 20px;
+  padding: 20px;
+  background-color: #ff6347;
+  border: 6px solid #333;
+  color: #fff;
+  width: 28vh;
+  text-align: left;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 8px 8px 0px #333;
+  transition: all 0.2s ease-in-out;
+}
+
+.unselectButtonPokemon:hover {
+  background-color: #ff4500;
+  box-shadow: 6px 6px 0px #333;
+}
+
+.unselectButtonPokemno:active {
+  transform: translate(2px, 2px);
+  box-shadow: 4px 4px 0px #333;
+}
+
+.unselectButtonDog {
+  position: fixed;
+  top: calc(50% - 15px);
+  left: 20px;
+  font-family: "Press Start 2P", sans-serif;
+  font-size: 20px;
+  padding: 20px;
+  background-color: #ff6347;
+  border: 6px solid #333;
+  color: #fff;
+  width: 28vh;
+  text-align: left;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 8px 8px 0px #333;
+  transition: all 0.2s ease-in-out; /* Center it horizontally by default, but not necessary since right is set */
+}
+
+.unselectButtonDog:hover {
+  background-color: #ff4500;
+  box-shadow: 6px 6px 0px #333;
+}
+
+.unselectButtonDog:active {
+  transform: translate(2px, 2px);
+  box-shadow: 4px 4px 0px #333;
 }
