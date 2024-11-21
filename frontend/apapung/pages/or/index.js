@@ -6,12 +6,10 @@ import Carousel from "../../components/carousel";
 
 // This function runs server-side to fetch data before the page is rendered
 export async function getServerSideProps(context) {
-  
-  // if frontend app is run from docker, 
+  // if frontend app is run from docker,
   // it will have NEXT_PUBLIC_API_URL env var,
   // otherwise it defaults to localhost
   const apiUrl = process.env.BACKEND_URL || "http://localhost:8080";
-
   const { pokemon, dog } = context.query;
 
   if (!pokemon || !dog) {
@@ -32,7 +30,20 @@ export async function getServerSideProps(context) {
 
     const totalMoneyNeeded = data.dogsNeeded * moneyPerDog;
     // temporary measure
-    const categoryList = ["videogames", "software", "kitchen", "kids", "diy", "grocery", "lighting", "music", "beauty", "baby", "gift-cards", "pet-supplies"];
+    const categoryList = [
+      "videogames",
+      "software",
+      "kitchen",
+      "kids",
+      "diy",
+      "grocery",
+      "lighting",
+      "music",
+      "beauty",
+      "baby",
+      "gift-cards",
+      "pet-supplies",
+    ];
     const selectedCategory = categoryList[Math.floor(Math.random() * categoryList.length)];
 
     const fetchAmazonProducts = await fetch(
@@ -112,8 +123,9 @@ export default function OrPage({ messages, products, dogsNeeded, error }) {
 
       {/* First Page */}
       <div
-        className={`${styles.fullscreenDiv} ${styles.firstScreen} ${showSecondDiv ? styles.slideUp : ""
-          }`}
+        className={`${styles.fullscreenDiv} ${styles.firstScreen} ${
+          showSecondDiv ? styles.slideUp : ""
+        }`}
       >
         <div className={styles.content}>
           <img src="/poketrainer.gif" alt="Pokémon" className={styles.pokemonCharacter} />
@@ -125,8 +137,9 @@ export default function OrPage({ messages, products, dogsNeeded, error }) {
 
       {/* Second Page */}
       <div
-        className={`${styles.fullscreenDiv} ${styles.secondScreen} ${showSecondDiv ? styles.show : styles.hidden
-          }`}
+        className={`${styles.fullscreenDiv} ${styles.secondScreen} ${
+          showSecondDiv ? styles.show : styles.hidden
+        }`}
       >
         <Carousel products={products} dogsNeeded={dogsNeeded} />
         {/* <Slider products={products} dogsNeeded={dogsNeeded} /> */}
