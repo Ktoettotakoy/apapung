@@ -3,21 +3,21 @@
     display: flex;
     flex-direction: row;
     align-items: stretch;
-    height: 30vh;            
-    width: auto;          
-    min-width: 450px;           
-    border-radius: 0px;        /* Rounded corners for a smooth look */
-    overflow: visible;           /* Prevent content overflow */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for a lift effect */
-    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth hover transition */
+    height: 30vh;
+    width: auto;     
+    min-width: 450px;
+    border-radius: 0px;
+    overflow: visible;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
   }
 
 
   
   /* Hover effect to slightly enlarge the card */
   .card:hover {
-    transform: scale(1.05); /* Slightly enlarge the card on hover */
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+    transform: scale(1.05);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   }
   
   /* Image styling */
@@ -26,21 +26,21 @@
     background-size:cover;
     background-position: center;
     background-attachment: fixed;
-    width: 35%;               /* Image takes up 45% of the card's width */
-    height: auto;             /* Fill the card's height */
-    object-fit: fill;        /* Ensures the image scales without distortion */
+    width: 35%;
+    height: auto;
+    object-fit: fill;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
   }
   
   /* Info container styling */
   .infoContainer {
-    background-color: rgb(126, 123, 123); /* Background color */
+    background-color: rgb(126, 123, 123);
     display: flex;
     flex-grow: 1;
     flex-direction: column;
-    padding: 16px;            /* Add padding inside the info container */
-    box-sizing: border-box;   /* Ensures padding doesn't affect the layout */
+    padding: 16px;
+    box-sizing: border-box;
     overflow: visible;
   }
   
@@ -49,11 +49,11 @@
     font-size: 1.1em;
     overflow: visible;
     font-family: 'Press Start 2P', bold;
-    color: #fff;              /* White text for contrast */
+    color: #fff;
     text-align: left;
     margin-top: 0px;
-    margin-bottom: px;      /* Adds space below the name */
-    text-transform: capitalize; /* Capitalize first letter of each word */
+    margin-bottom: 0px;
+    text-transform: capitalize;
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
@@ -64,36 +64,54 @@
     word-wrap: normal;
     display: flex;
     flex-direction: column;
-    gap: 32px;                 /* Adds some space between each parameter */
+    gap: 28px;
+  }
+  
+  /* Types container (row layout) */
+  .typesContainer {
+    margin-top: 8px;
+  }
+
+  .types {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .typeImage {
+    width: 105px;
+    height: auto;
+    object-fit: contain;
   }
   
   /* Individual parameter styling */
   .cardParameter {
-    font-size: 1.2rem;          /* Slightly smaller size for the parameters */
+    font-size: 1.1rem;
     font-family: 'Press Start 2P', light;
-    color: #fff;              /* White text for contrast */
+    color: #fff;
     margin: 0;
-    padding: 4px 0;           /* Add vertical padding */
+    padding: 4px 0;
   }
   
   /* Styling for parameter keys (e.g., "Types", "Base stats") */
   .parameterKey {
     font-weight: bold;
-    color: #fff;              /* Make keys stand out in white */
+    color: #fff;
   }
   
   /* Styling for parameter values */
   .parameterValue {
     font-weight: normal;
-    color: #f0f0f0;           /* Light gray color for values */
+    color: #f0f0f0;
   }
 
   @media (max-width: 600px) {
     .card {
-        flex-direction: column;
-        min-width: auto;
+      flex-direction: column;
+      min-width: auto;
     }
     .cardImage, .infoContainer {
-        width: 100%;
+      width: 100%;
     }
 }

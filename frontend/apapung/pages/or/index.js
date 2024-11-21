@@ -2,10 +2,16 @@ import Head from "next/head";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import styles from "../../styles/Or.module.css";
-import Slider from "../../components/slider";
+import Carousel from "../../components/carousel";
 
 // This function runs server-side to fetch data before the page is rendered
 export async function getServerSideProps(context) {
+  
+  // if frontend app is run from docker, 
+  // it will have NEXT_PUBLIC_API_URL env var,
+  // otherwise it defaults to localhost
+  const apiUrl = process.env.BACKEND_URL || "http://localhost:8080";
+
   const { pokemon, dog } = context.query;
 
   if (!pokemon || !dog) {
@@ -15,8 +21,8 @@ export async function getServerSideProps(context) {
 
   try {
     // Fetch comparison data
-    const fetchComparison = fetch(`http://localhost:8080/compare/${pokemon}/${dog}`);
-    const fetchPrice = fetch(`http://localhost:8080/price/${dog}`);
+    const fetchComparison = fetch(`${apiUrl}/compare/${pokemon}/${dog}`);
+    const fetchPrice = fetch(`${apiUrl}/price/${dog}`);
 
     // Use Promise.all to wait for both fetches concurrently
     const [compareResponse, priceResponse] = await Promise.all([fetchComparison, fetchPrice]);
@@ -26,12 +32,11 @@ export async function getServerSideProps(context) {
 
     const totalMoneyNeeded = data.dogsNeeded * moneyPerDog;
     // temporary measure
-    const categoryList = ["videogames", "software", "electronics", "kitchen", "kids"];
+    const categoryList = ["videogames", "software", "kitchen", "kids", "diy", "grocery", "lighting", "music", "beauty", "baby", "gift-cards", "pet-supplies"];
+    const selectedCategory = categoryList[Math.floor(Math.random() * categoryList.length)];
 
     const fetchAmazonProducts = await fetch(
-      `http://localhost:8080/amazon/bestselling/${
-        categoryList[Math.floor(Math.random() * categoryList.length)]
-      }/${dog}`
+      `${apiUrl}/amazon/bestselling/${selectedCategory}?dogPrice=${moneyPerDog}`
     );
 
     const listOfProducts = await fetchAmazonProducts.json();
@@ -107,9 +112,8 @@ export default function OrPage({ messages, products, dogsNeeded, error }) {
 
       {/* First Page */}
       <div
-        className={`${styles.fullscreenDiv} ${styles.firstScreen} ${
-          showSecondDiv ? styles.slideUp : ""
-        }`}
+        className={`${styles.fullscreenDiv} ${styles.firstScreen} ${showSecondDiv ? styles.slideUp : ""
+          }`}
       >
         <div className={styles.content}>
           <img src="/poketrainer.gif" alt="Pokémon" className={styles.pokemonCharacter} />
@@ -121,11 +125,11 @@ export default function OrPage({ messages, products, dogsNeeded, error }) {
 
       {/* Second Page */}
       <div
-        className={`${styles.fullscreenDiv} ${styles.secondScreen} ${
-          showSecondDiv ? styles.show : styles.hidden
-        }`}
+        className={`${styles.fullscreenDiv} ${styles.secondScreen} ${showSecondDiv ? styles.show : styles.hidden
+          }`}
       >
-        <Slider products={products} dogsNeeded={dogsNeeded} />
+        <Carousel products={products} dogsNeeded={dogsNeeded} />
+        {/* <Slider products={products} dogsNeeded={dogsNeeded} /> */}
         <button className={styles.restartButton} onClick={() => router.push("/")}>
           Restart
         </button>
