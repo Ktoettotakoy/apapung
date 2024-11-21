@@ -29,7 +29,6 @@ export async function getServerSideProps(context) {
     const moneyPerDog = await priceResponse.json();
 
     const totalMoneyNeeded = data.dogsNeeded * moneyPerDog;
-    // temporary measure
     const categoryList = [
       "videogames",
       "software",
@@ -44,6 +43,7 @@ export async function getServerSideProps(context) {
       "gift-cards",
       "pet-supplies",
     ];
+    const selectedCategory = categoryList[Math.floor(Math.random() * categoryList.length)];
 
     const fetchAmazonProducts = await fetch(
       `${apiUrl}/amazon/bestselling/${selectedCategory}?dogPrice=${moneyPerDog}`
