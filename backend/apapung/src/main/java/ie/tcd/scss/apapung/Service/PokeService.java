@@ -4,6 +4,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpHeaders;
@@ -22,12 +23,15 @@ import ie.tcd.scss.apapung.Repository.TypesRepository;
 import java.time.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unchecked")
 @Service
 public class PokeService {
     private final String pokeAPIToken;
@@ -104,7 +108,7 @@ public class PokeService {
             // convert types list to list of urls
             TypesRepository typeRepo = new TypesRepository();
             List<String> typesURLList = typeRepo.getTypeUrls(typesList);
-            
+
             Map<String, Object> sprites = (Map<String, Object>) responseMap.get("sprites");
             String spriteUrl = (String) sprites.get("front_default");
 
@@ -120,5 +124,81 @@ public class PokeService {
             e.printStackTrace();
         }
         return resultMap;
+    }
+
+    public String getRandomPokemonName() {
+        // Generate random Pokemon ID between 1 and 1025
+        Random random = new Random();
+        int randomPokemonId = random.nextInt(1025) + 1;
+
+        // Construct the URL for getting the specific Pokemon
+        String url = "https://pokeapi.p.sulu.sh/api/v2/pokemon/" + randomPokemonId + "/";
+
+        // Set up headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + this.pokeAPIToken);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        try {
+            // Make the GET request
+            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    entity,
+                    new ParameterizedTypeReference<Map<String, Object>>() {}
+            );
+
+            Map<String, Object> pokemonInfo = response.getBody();
+
+            if (pokemonInfo != null) {
+                // Return just the Pokemon name
+                return (String) pokemonInfo.get("name");
+            } else {
+                throw new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "No data found for random Pokemon ID: " + randomPokemonId
+                );
+            }
+        } catch (HttpClientErrorException.NotFound e) {
+            // If the random ID doesn't exist, try again with a different random number
+            return getRandomPokemonName();
+        } catch (Exception e) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error fetching random Pokemon name: " + e.getMessage()
+            );
+        }
+    }
+
+    public List<String> getPokemonTypes(String pokemonName) {
+        // Construct the API URL for the Pokémon
+        String url = "https://pokeapi.p.sulu.sh/api/v2/pokemon/" + pokemonName.toLowerCase() + "/";
+
+        // Set up the API access headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + this.pokeAPIToken);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        // Send the GET request to the API
+        try {
+            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                entity,
+                new ParameterizedTypeReference<Map<String, Object>>() {}
+            );
+
+            // Extract the list of types from the response body
+            List<Map<String, Object>> types = (List<Map<String, Object>>) response.getBody().get("types");
+
+            // Extract and return the names of the types
+            return types.stream()
+                    .map(typeEntry -> (Map<String, Object>) typeEntry.get("type"))
+                    .map(typeMap -> (String) typeMap.get("name"))
+                    .collect(Collectors.toList());
+
+        } catch (HttpClientErrorException e) {
+            throw new RuntimeException("Error fetching Pokémon types for: " + pokemonName, e);
+        }
     }
 }

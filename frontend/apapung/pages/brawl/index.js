@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import styles from "../../styles/Brawl.module.css";
 import CardHolder from "../../components/cardHolder.js";
-import Card from "../../components/card.js";
+import PokeCard from "../../components/cards/pokeCard.js";
+import DogCard from "../../components/cards/dogCard.js";
 
 export default function Brawl() {
   const router = useRouter();
@@ -16,32 +17,29 @@ export default function Brawl() {
   const [isDogSelected, setIsDogSelected] = useState(false);
 
   const handlePokemonSubmit = async (input) => {
-    console.log("Called handlePokemonSubmit");
     try {
-      console.log("API ACCESS");
+      // console.log("POKEMON API ACCESS");
       const response = await fetch(
         `http://localhost:8080/pokemon/${input}/stats`
       );
       const data = await response.json();
 
-      // for debug purposes
-      //  const data = {
-      //    Types: ["electric"],
-      //    "Sprite url":
-      //      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/404.png",
-      //    "Total base stats": 363,
-      //    "Dex number": 404,
-      //    Name: "luxio",
-      //  };
-      
       //Extract fields for Card component
-      const { Name: name, "Sprite url": image, ...parameters } = data;
+      const {
+        Name: name,
+        "Sprite url": image,
+        "Total base stats": power,
+        Types: types,
+        "Dex number": dexNum,
+      } = data;
 
       // Set Pokemon data for Card display
       setPokemonData({
         name,
         image,
-        parameters: JSON.stringify(parameters, null, 2),
+        power,
+        types,
+        dexNum,
       });
 
       setIsPokemonSelected(true);
@@ -52,17 +50,17 @@ export default function Brawl() {
 
   // Handle dog card submission
   const handleDogSubmit = async (input) => {
-    console.log("Called handleDogSubmit");
     setActualDogName(input);
     try {
-      console.log("API ACCESS DOGS");
+      // console.log("API ACCESS DOGS");
 
       const response = await fetch(
         `http://localhost:8080/breed-info/${input}/clean`
       );
       const data = await response.json();
 
-      const { name, images, ...parameters } = data;
+      // decompose data into vars
+      const { name, images, lifespan, height, weight, strength } = data;
 
       // Choose a random image from the images array
       const randomImage =
@@ -70,16 +68,63 @@ export default function Brawl() {
           ? images[Math.floor(Math.random() * images.length)]
           : "";
 
+      // Set Dog data for Card display
       setDogData({
         name,
         image: randomImage,
-        parameters: JSON.stringify(parameters, null, 2),
+        lifespan,
+        height,
+        weight,
+        strength,
       });
 
       setIsDogSelected(true);
     } catch (error) {
       console.error("Error fetching Dog data:", error);
     }
+  };
+
+  const handleRandomizePokemon = () => {
+    const randomPokemonId = Math.floor(Math.random() * 1000) + 1; // Random number between 1 and 1000
+    handlePokemonSubmit(randomPokemonId.toString());
+  };
+
+  const handleRandomizeDog = async () => {
+    
+    try {
+      const response = await fetch(
+        `http://localhost:8080/breed-info/random/clean`
+      );
+
+      const data = await response.json();
+
+      // decompose data into vars
+      const { name, images, lifespan, height, weight, strength } = data;
+
+      // Choose a random image from the images array
+      const randomImage =
+        images && images.length > 0
+          ? images[Math.floor(Math.random() * images.length)]
+          : "";
+
+      // Set Dog data for Card display
+      setDogData({
+        name,
+        image: randomImage,
+        lifespan,
+        height,
+        weight,
+        strength,
+      });
+
+      setIsDogSelected(true);
+    } catch (error) {
+      console.error("Error getting random Dog:", error);
+    }
+    // const dogBreeds = ["bulldog", "labrador", "poodle", "beagle"]; // Example breed list
+    // const randomDogBreed =
+    //   dogBreeds[Math.floor(Math.random() * dogBreeds.length)];
+    
   };
 
   // Handle VS button click
@@ -92,10 +137,10 @@ export default function Brawl() {
           pathname: "/or",
           query: {
             pokemon: pokemonData.name,
-            dog: actualDogName,
+            dog: dogData.name,
           },
         });
-      }, 2000);
+      });
     } else {
       alert("Please select both a Pokemon and a Dog!");
     }
@@ -124,15 +169,20 @@ export default function Brawl() {
             startButtonPlaceholder={"Click to choose a pokemon"}
             popUpModalPlaceholder={"Enter pokemon name"}
             onCardSubmit={handlePokemonSubmit}
+            onRandomize={handleRandomizePokemon}
+            isPokemonSelected={isPokemonSelected}
+            isDogSelected={isDogSelected}
           ></CardHolder>
         )}
         {pokemonData && (
           <div>
-            <Card
+            <PokeCard
               name={pokemonData.name}
               image={pokemonData.image}
-              parameters={pokemonData.parameters}
-              className={styles.pokemonCard}
+              types={pokemonData.types}
+              power={pokemonData.power}
+              dexNum={pokemonData.dexNum}
+              additionalStyles={styles.pokemonCard}
             />
             <button
               className={styles.unselectButtonPokemon}
@@ -163,24 +213,27 @@ export default function Brawl() {
             startButtonPlaceholder={"Click to choose a dog breed"}
             popUpModalPlaceholder={"Enter dog breed"}
             onCardSubmit={handleDogSubmit}
+            onRandomize={handleRandomizeDog}
+            isPokemonSelected={isPokemonSelected} // Pass isPokemonSelected state
+            isDogSelected={isDogSelected} // Pass isDogSelected state
           ></CardHolder>
         )}
         {dogData && (
           <div>
-            <Card
+            <DogCard
               name={dogData.name}
               image={dogData.image}
-              parameters={dogData.parameters}
-              className={styles.dogCard}
+              weight={dogData.weight}
+              height={dogData.height}
+              lifespan={dogData.lifespan}
+              strength={dogData.strength}
+              additionalStyles={styles.dogCard}
             />
             <button className={styles.unselectButtonDog} onClick={unselectDog}>
               Unselect Dog
             </button>
           </div>
         )}
-        <button className={styles.resetButton} onClick={() => router.reload()}>
-          Reset
-        </button>
       </div>
     </div>
   );

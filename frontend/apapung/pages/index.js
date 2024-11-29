@@ -29,7 +29,7 @@ export default function Home() {
           />
 
           <img
-            src="/HomeVs.png"
+            src="/HomeVS.png"
             alt="Versus"
             style={{ width: "20vw", height: "auto", marginTop: "2vh" }}
           />

@@ -1,8 +1,10 @@
 package ie.tcd.scss.apapung.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -17,9 +19,9 @@ import org.springframework.http.MediaType;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
-import javax.naming.directory.InvalidAttributesException;
-
+@SuppressWarnings("unchecked")
 @Service
 public class DogService {
     @Autowired
@@ -34,7 +36,7 @@ public class DogService {
 
         // Load .env file and get the OpenAI API key
         Dotenv dotenv = Dotenv.load();
-        this.dogAPIToken = dotenv.get("DOG_API_TOKEN");
+        this.dogAPIToken = dotenv.get("DOG_TOKEN");
         this.groqApiKey = dotenv.get("OPENAI_TOKEN");
     }
 
@@ -49,7 +51,12 @@ public class DogService {
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         // Make the GET request
-        ResponseEntity<List> response = restTemplate.exchange(url, HttpMethod.GET, entity, List.class);
+        ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
+            url, 
+            HttpMethod.GET, 
+            entity, 
+            new ParameterizedTypeReference<List<Map<String, Object>>>() {}
+        );
         List<Map<String, Object>> breeds = response.getBody();
 
         if (breeds != null && !breeds.isEmpty()) {
@@ -75,6 +82,72 @@ public class DogService {
         }
     }
 
+    public String getRandomBreedName() {
+        // Generate random breed ID between 1 and 264
+        Random random = new Random();
+        int randomBreedId = random.nextInt(264) + 1;
+
+        // Construct the URL for getting the specific breed
+        String url = "https://api.thedogapi.com/v1/breeds/" + randomBreedId;
+
+        // Set up headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("x-api-key", dogAPIToken);
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        try {
+            // Make the GET request
+            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                entity,
+                new ParameterizedTypeReference<Map<String, Object>>() {} // Properly parameterized type
+            );
+
+            Map<String, Object> breedInfo = response.getBody();
+            if (!nameInData((String) breedInfo.get("name"))) {
+                return getRandomBreedName();
+            }
+            return (String) breedInfo.get("name");
+        } catch (HttpClientErrorException.NotFound e) {
+            return getRandomBreedName();
+        } catch (Exception e) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error fetching random breed name: " + e.getMessage()
+            );
+        }
+    }
+
+    //helper function for getRandomBreedName
+    public boolean nameInData(String breedQuery) {
+        String url = "https://api.thedogapi.com/v1/breeds/search?q=" + breedQuery;
+
+        // Set up headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("x-api-key", dogAPIToken);
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        try {
+            // Make the GET request
+            ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                entity,
+                new ParameterizedTypeReference<List<Map<String, Object>>>() {} // Properly parameterized type
+            );
+
+            List<Map<String, Object>> breeds = response.getBody();
+            return breeds != null && !breeds.isEmpty();
+        } catch (RestClientException e) {
+            return false;
+        }
+    }
+
+
+
     private List<String> getBreedImages(int breedId) {
         String url = "https://api.thedogapi.com/v1/images/search?breed_id=" + breedId + "&limit=5"; // Limit to 5 images
 
@@ -83,7 +156,12 @@ public class DogService {
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        ResponseEntity<List> response = restTemplate.exchange(url, HttpMethod.GET, entity, List.class);
+        ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
+            url, 
+            HttpMethod.GET, 
+            entity, 
+            new ParameterizedTypeReference<List<Map<String, Object>>>() {}
+        );
         List<Map<String, Object>> imagesData = response.getBody();
 
         return imagesData.stream()
@@ -152,11 +230,11 @@ public class DogService {
     
         try {
             ResponseEntity<Map> response = restTemplate.postForEntity(
-                    "https://api.groq.com/openai/v1/chat/completions", request, Map.class);
-    
+            "https://api.groq.com/openai/v1/chat/completions", request, Map.class);
+
             // Check if the response body contains the expected fields
             if (response.getBody() != null && response.getBody().containsKey("choices")) {
-                List<Map> choices = (List<Map>) response.getBody().get("choices");
+                List<Map<String, Object>> choices = (List<Map<String, Object>>) response.getBody().get("choices");
                 if (!choices.isEmpty()) {
                     Map<String, Object> firstChoice = choices.get(0); // Access the first choice
                     Map<String, Object> message = (Map<String, Object>) firstChoice.get("message");
